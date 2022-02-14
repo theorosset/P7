@@ -2,7 +2,7 @@ const express = require("express");
 const userRoute = require("./Routes/User");
 
 const app = express();
-
+app.use(express.json());
 /**
  * connexion a la BDD Mysql
  */
@@ -14,7 +14,6 @@ app.use((req, res, next) => {
 });
 
 //recupération des requête qui ont un content-type json
-app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
