@@ -19,6 +19,7 @@ const getAllPost = (req, res, next) => {
  */
 const createPost = (req, res, next) => {
   const userId = req.auth.userId;
+  const post_num = req.body.post_num;
 
   // requête sql
   const sql = "INSERT INTO posts SET ?";
@@ -26,6 +27,7 @@ const createPost = (req, res, next) => {
   const post = {
     ...req.body,
     post_id: userId,
+    post_num: post_num,
   };
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
@@ -33,9 +35,45 @@ const createPost = (req, res, next) => {
     if (err) {
       return res.status(400).json(err);
     } else {
-      return res.status(200).json({ message: "post créer avec succses" });
+      return res.status(200).json({ message: "post créer avec succes" });
     }
   });
 };
 
-module.exports = { getAllPost, createPost };
+/**
+ * suppression d'un post
+ */
+const deletePost = (req, res, next) => {
+  //requête sql pour selection le post a supprimer
+  const sqlSelect = "SELECT * From posts WHERE `posts`.`post_num` = ?";
+
+  const postDelete = {
+    post_num: req.params.id,
+  };
+  //récuperation du post a supprimer
+  db.query(sqlSelect, postDelete.post_num, (err, results) => {
+    console.log(results);
+    //si l'id du post est differant de celui du créateur
+    if (results[0].post_id !== req.auth.userId) {
+      return res.status(403).json({ message: "ceci n'est pas votre status" });
+    } else {
+      //requête sql pour supprimer le post
+      const sqlDelete = "DELETE FROM posts WHERE `posts`.`post_num` = ?";
+
+      //suppression du post
+      db.query(sqlDelete, postDelete.post_num, (err, results) => {
+        if (err) {
+          return res.status(500).json(err);
+        } else {
+          return res.status(200).json({ message: "status supprimer" });
+        }
+      });
+    }
+  });
+};
+
+const updatePost = (req, res, next) => {
+  const sqlUpdate = ddd;
+};
+
+module.exports = { getAllPost, createPost, deletePost, updatePost };

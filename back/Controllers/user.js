@@ -14,7 +14,7 @@ const login = (req, res, next) => {
     //verification de l'email
     db.query(sqlUser, user_email, async (err, results) => {
       //si l'email n'est pas présent dans la BDD
-      if (results[0] === undefined) {
+      if (results === undefined) {
         return res.status(401).json({ message: "email incorrect" });
       }
       //sinon on vérifie le MDP
