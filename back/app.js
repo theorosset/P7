@@ -1,8 +1,9 @@
 const express = require("express");
 const userRoute = require("./Routes/User");
-
+const postRoute = require("./Routes/Post");
 const app = express();
 app.use(express.json());
+
 /**
  * connexion a la BDD Mysql
  */
@@ -29,5 +30,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", userRoute);
+app.use("/api/groupomania", postRoute);
 
 module.exports = app;
