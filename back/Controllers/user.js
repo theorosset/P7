@@ -19,34 +19,29 @@ const login = (req, res, next) => {
       }
       //sinon on vérifie le MDP
       else {
-        const sqlPass = "SELECT * FROM `users`";
-
         //vérification du mdp
-        db.execute(sqlPass, [passNotHash], async (err, results) => {
-          if (err) {
-            return res.status(400).json(console.log(err));
-          }
-          console.log(results);
-          const auth = await bcrypt.compare(
-            passNotHash,
-            results[0].user_password
-          );
-          if (!auth) {
-            return res.status(401).json({ message: "mdp incorrect" });
-          } else {
-            return res.status(200).json({
-              userId: results[0].user_id,
-              token: jwt.sign(
-                { userId: results[0].user_id },
-                process.env.SECRET_TOKEN,
-                { expiresIn: "24h" }
-              ),
-            });
-          }
-        });
+        console.log(results);
+        const auth = await bcrypt.compare(
+          passNotHash,
+          results[0].user_password
+        );
+        if (!auth) {
+          return res.status(401).json({ message: "mdp incorrect" });
+        } else {
+          return res.status(200).json({
+            userId: results[0].user_id,
+            token: jwt.sign(
+              { userId: results[0].user_id },
+              process.env.SECRET_TOKEN,
+              { expiresIn: "24h" }
+            ),
+          });
+        }
       }
     });
-  } catch (err) {}
+  } catch (err) {
+    return res.status(400).json(err);
+  }
 };
 
 /**
