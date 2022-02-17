@@ -2,8 +2,8 @@
     <section class="positionPost">
         <div class="post">
             <div class="picture"></div>
-            <form class="formPost">
-                <textarea class="createPost" type="text" placeholder="Quelque chose a raconter ?"></textarea>
+            <form class="formPost" @submit.prevent="createPost">
+                <textarea v-model="form.text" class="createPost" type="text" placeholder="Quelque chose a raconter ?"></textarea>
                 <input class="submitPost" type="submit">
             </form>
         </div>
@@ -12,9 +12,42 @@
 
 
 <script>
+
+
+
+
 export default{
-    name: 'post'
+    name: 'post',
+    data(){
+      return {
+        form:{
+          text: ''
+        },
+        
+      }
+    },
+    methods:{
+      /**
+       * création d'un status 
+       * method: post
+       * body: envoie des information qu'attend le backend       
+       * headers: définis les headers
+       */
+      createPost(){
+        const token = localStorage.getItem('token')
+        fetch('http://localhost:3000/api/groupomania',{
+          method: "POST",
+          body:  JSON.stringify({post_post:this.form.text}),          
+          headers:{ Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    }  
+        }).then(() => alert('Votre status a bien été créé')).catch((err) => console.log(err));
+      
+      }
+    }
 }
+
 
 </script>
 
