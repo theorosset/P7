@@ -7,12 +7,12 @@ const db = require("../config/db-config");
  * connexion
  */
 const login = (req, res, next) => {
-  const { user_email, user_password: passNotHash } = req.body;
+  const { email, password: passNotHash } = req.body;
   try {
-    const sqlUser = "SELECT * FROM users WHERE user_email = ?";
+    const sqlUser = "SELECT * FROM users WHERE email = ?";
 
     //verification de l'email
-    db.query(sqlUser, user_email, async (err, results) => {
+    db.query(sqlUser, req.body.email, async (err, results) => {
       //si l'email n'est pas présent dans la BDD
       if (results === undefined) {
         return res.status(401).json({ message: "email incorrect" });
@@ -21,17 +21,14 @@ const login = (req, res, next) => {
       else {
         //vérification du mdp
         console.log(results);
-        const auth = await bcrypt.compare(
-          passNotHash,
-          results[0].user_password
-        );
+        const auth = await bcrypt.compare(passNotHash, results[0].password);
         if (!auth) {
           return res.status(401).json({ message: "mdp incorrect" });
         } else {
           return res.status(200).json({
-            userId: results[0].user_id,
+            userId: results[0].id,
             token: jwt.sign(
-              { userId: results[0].user_id },
+              { userId: results[0].id },
               process.env.SECRET_TOKEN,
               { expiresIn: "24h" }
             ),
@@ -49,16 +46,18 @@ const login = (req, res, next) => {
  */
 const signup = async (req, res, next) => {
   // constante de destructuration
-  const { user_name, user_firstname, user_email, user_password } = req.body;
+  const { lastName, firstName, email, password } = req.body;
   try {
     //chiffrement du mot de pass bcrypt
     const salt = await bcrypt.genSalt(10);
-    const passHash = await bcrypt.hash(user_password, salt);
+    const passHash = await bcrypt.hash(password, salt);
 
     //recuperation de l'utilisateur créer
     const user = {
-      ...req.body,
-      user_password: passHash,
+      lastName: lastName,
+      firstName: firstName,
+      email: email,
+      password: passHash,
     };
 
     //requête sql pour inserer les valeurs dans la table

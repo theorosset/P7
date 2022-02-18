@@ -8,7 +8,8 @@ const getAllPost = (req, res, next) => {
    *ajouter le nom et prenom des personne qui on créer les post
    *avec une jointure
    */
-  const sql = "SELECT * FROM posts";
+  const sql =
+    "SELECT posts.id, lastName, firstName, text FROM posts INNER JOIN users ON posts.user = users.id";
   db.execute(sql, (err, result) => {
     if (err) {
       return res.status(500).json({ message: " aucun post est  présent" });
@@ -31,7 +32,7 @@ const createPost = (req, res, next) => {
 
   const post = {
     ...req.body,
-    post_id: userId,
+    user: userId,
   };
 
   //ajout a la base de donner
@@ -50,6 +51,7 @@ const createPost = (req, res, next) => {
  */
 const deletePost = (req, res, next) => {
   //requête sql pour selection le post a supprimer
+  //utiliser count
   const sqlSelect = "SELECT * From posts WHERE `posts`.`post_num` = ?";
 
   const postDelete = {
