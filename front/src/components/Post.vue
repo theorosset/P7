@@ -12,45 +12,43 @@
 
 
 <script>
+    export default {
+        name: 'post',
+        data() {
+            return {
+                form: {
+                    text: ''
+                },
 
-
-
-
-export default{
-    name: 'post',
-    data(){
-      return {
-        form:{
-          text: ''
+            }
         },
-        
-      }
-    },
-    methods:{
-      /**
-       * création d'un status 
-       * method: post
-       * body: envoie des information qu'attend le backend       
-       * headers: définis les headers
-       */
-      createPost(){
-        const token = localStorage.getItem('token')
-        fetch('http://localhost:3000/api/groupomania',{
-          method: "POST",
-          body:  JSON.stringify({post_post:this.form.text}),          
-          headers:{ Authorization: `Bearer ${token}`,
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    }  
-        }).then(() => alert('Votre status a bien été créé')).catch((err) => console.log(err));
-      
-      }
+        methods: {
+            /**
+             * création d'un status 
+             * method: post
+             * body: envoie des information qu'attend le backend       
+             * headers: définis les headers
+             */
+            createPost() {
+                const token = localStorage.getItem('token')
+
+
+                fetch('http://localhost:3000/api/groupomania', {
+                    method: "POST",
+                    body: JSON.stringify({ post_post: this.form.text }),
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    }
+                }).then(() => alert('Votre status a bien été créé')).catch((err) => console.log(err));
+
+            }
+        }
     }
-}
 
 
 </script>
-
 
 <style scoped>
 /*post*/

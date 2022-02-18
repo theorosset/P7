@@ -58,21 +58,31 @@ export default {
       },
 
     methods:{
-      UserCreate(){
+      UserLogin(){
           axios.post("http://localhost:3000/api/auth/login",{
-
+            headers: {Authorization: `bearer `},
           user_email: this.form.email,
           user_password: this.form.password,
-      }).then(() => {
-        document.location.href = `/groupomania`       
+      }).then((res) => {
+         const token =  res.data.token;
+        const userId = res.data.userId;
+
+        axios.defaults.headers.common.Authorization = 'Bearer ' + token;
+
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('token', token);
+        this.$router.push("/groupomania")
+        this.$router.go("/groupomania")
+               
       }).catch(() => {
         alert("mot de passe ou email incorrect")
       });
      
    },
+  
    validForm(){
      if (this.$v.email.$dirty === false && this.$v.password.$dirty === false){ 
-           this.UserCreate()
+           this.UserLogin()
          }
    }}
 }

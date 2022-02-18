@@ -1,6 +1,7 @@
 <template>
-    <article class="positionPostData">
-        <!--<div class="postData">
+  <div>
+    <article  class="positionPostData" >
+        <div class="postData">
             <div class="namePost">
                 <h3 class="name">nom</h3>
                 <h3 class="name">prénom</h3>
@@ -8,15 +9,30 @@
             <div class="postText">
                 <p class="postOfPersonne"></p>
             </div>
-        </div>-->
+        </div>
     </article>
+  </div>
 </template>
 
 <script>
-export default{
-    name: 'postCreate'
-}
 
+import axios from 'axios'
+
+export default{
+    name: 'postCreate',
+    data(){
+      return {
+        Post: []
+      }
+    },
+    methods:{
+      getAllPost(){
+        axios.get('http://localhost:3000/api/groupomania')
+        .then((res) => {this.Post = res.data })
+       
+    }
+  }
+}
 </script>
 
 <style scoped>

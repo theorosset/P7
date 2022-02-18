@@ -4,6 +4,10 @@ const db = require("../config/db-config");
  * récuperation de tout les posts
  */
 const getAllPost = (req, res, next) => {
+  /**
+   *ajouter le nom et prenom des personne qui on créer les post
+   *avec une jointure
+   */
   const sql = "SELECT * FROM posts";
   db.execute(sql, (err, result) => {
     if (err) {
@@ -19,16 +23,17 @@ const getAllPost = (req, res, next) => {
  */
 const createPost = (req, res, next) => {
   const userId = req.auth.userId;
-  const post_num = req.body.post_num;
 
   // requête sql
+
   const sql = "INSERT INTO posts SET ?";
   // information a ajouter dans la BDD
+
   const post = {
     ...req.body,
     post_id: userId,
-    post_num: post_num,
   };
+
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
     console.log(results);
@@ -108,4 +113,6 @@ const updatePost = (req, res, next) => {
   });
 };
 
-module.exports = { getAllPost, createPost, deletePost, updatePost };
+const like = (req, res, next) => {};
+
+module.exports = { getAllPost, createPost, deletePost, updatePost, like };

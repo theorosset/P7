@@ -101,7 +101,7 @@ export default {
          this.$v.password.$dirty === false){ 
            this.UserCreate()
          }
-   }
+    }
   }
 }
 </script>

@@ -2,7 +2,7 @@
 <div class="Groupomania">
        <headerGroupomania />
        <post/>
-       <postCreate/>
+       <getPost/>
 </div>
 
 </template>
@@ -13,13 +13,13 @@
 
 import headerGroupomania from "../components/headerGroupomania.vue"
 import Post from "../components/Post.vue"
-import postCreate from "../components/PostCreate.vue"
+import getPost from "../components/getPost.vue"
 export default{
     name:"Groupomania",
     components :{
         headerGroupomania,
         Post,
-        postCreate
+        getPost
 
     },
     

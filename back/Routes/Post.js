@@ -6,4 +6,7 @@ Router.get("/", PostControllers.getAllPost);
 Router.post("/", auth, PostControllers.createPost);
 Router.delete("/:id", auth, PostControllers.deletePost);
 Router.put("/:id", auth, PostControllers.updatePost);
+
+Router.post("/like", PostControllers.like);
+
 module.exports = Router;
