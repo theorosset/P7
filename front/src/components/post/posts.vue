@@ -1,46 +1,50 @@
 <template>
-  <div>
-    <article  class="positionPostData" >
-        <div class="postData">
+    <div class="posts">
+        <li class="postData" v-for="post in posts" :key="post.user" >
             <div class="namePost">
-                <h3 class="name">nom</h3>
-                <h3 class="name">prénom</h3>
+                <h3 class="name">{{post.firstName}}</h3>
+                <h3 class="name">{{ post.lastName }}</h3>
             </div>
             <div class="postText">
-                <p class="postOfPersonne"></p>
+                <p class="postOfPersonne">{{post.text}}</p>
             </div>
-        </div>
-    </article>
-  </div>
+        </li>
+    </div>
 </template>
+
+
 
 <script>
 
 import axios from 'axios'
 
-export default{
-    name: 'postCreate',
+export default {
+    name: 'posts',
+
     data(){
       return {
-        Post: []
-      }
+        posts: []
+      }      
     },
+
+    mounted(){
+      this.getAllPost()
+    },
+
     methods:{
       getAllPost(){
         axios.get('http://localhost:3000/api/groupomania')
-        .then((res) => {this.Post = res.data })
+        .then((res) => {this.posts = res.data })
        
     }
   }
 }
+
 </script>
 
 <style scoped>
 /* post déjà créer */
 
-.positionPostData {
-  display: flex;
-}
 .postData {
   width: 500px;
   max-width: 1000px;

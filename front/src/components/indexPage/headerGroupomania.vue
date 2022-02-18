@@ -1,13 +1,14 @@
 <template>
 
     <header class="headeur">
-        <img class="logoWhite" src="../assets/icon-left-font-monochrome-white.png" alt="logo de l'entreprise" />
+        <img class="logoWhite" src="@/assets/icon-left-font-monochrome-white.png" alt="logo de l'entreprise" />
     </header>
 
 </template>
 
 
 <script>
+
 
 
 export default{

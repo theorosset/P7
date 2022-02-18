@@ -1,20 +1,29 @@
 <template>
   <div class="login">
          <img id="logo" src="../assets/images/icon-above-font.png" alt="logo de l'entreprise">
-        <div class="border_form">
-            <form class="form" @submit.prevent="validForm">
+    <div class="border_form">
+      <form class="form" @submit.prevent="validForm">
 
-              <label class="label_email" for="email">Email </label>
-              <input v-model="form.email" :error-messages="emailErrors" required  @input="$v.form.email.$touch()" type="email" name="email" id="email" class="champ_form"><br>
-                 
-              <label class="label_password" for="password">Mot de passe </label>
-              <input v-model="form.password" :error-messages="passwordErrors" @blur="$v.form.password.$touch()" @input="$v.form.password.$touch()" required type="password" name="password" id="password" class="champ_form">
-                
-              <input type="submit" id="submit" value="connexion">
+        <label class="label_email" for="email">Email </label>
+        <input v-model="email"  required  @input="setEmail($event.target.value)" type="email" name="email" id="email" class="champ_form"><br>
 
-            </form>
-            <p class="texte_signup">Vous n'avez pas encore de compte ? <router-link to="/signup">Inscrivez-vous</router-link></p>
-        </div>
+        <div class="error" v-if="!$v.email.required">* Champs requis</div>
+        <div class="error" v-if="$v.email.$invalid">* Renseignez un email valide</div>
+
+        <label class="label_password" for="password">Mot de passe </label>
+        <input v-model="password"  @blur="$v.password.$touch()" @input="setPassword($event.target.value)" required type="password" name="password" id="password" class="champ_form">
+          
+        <div class="error" v-if="!$v.password.required">* Champs requis</div>
+        <div class="error" v-if="!$v.password.minLength">* minimum {{$v.password.$params.minLength.min}} lettre.</div>
+
+        <input type="submit" id="submit" value="connexion">
+
+      </form>
+      
+      <p class="texte_signup">Vous n'avez pas encore de compte ? <router-link to="/signup">Inscrivez-vous</router-link></p>
+      
+    </div>
+    
   </div>
 </template>
 
@@ -28,41 +37,30 @@ export default {
   name: 'login',
    data(){
     return {
-        form:{
           email:'',
           password:'',
-          } 
     }
   },
   
   validations:{
-    firstName:{required, minLength: minLength(3)},
-          lastName:{required, minLength: minLength(3)},
           email:{required, email},
           password:{required, minLength: minLength(7)},
   },
-  computed:{
-    emailErrors () {
-      const errors = []
-      if (!this.$v.email.$dirty) return errors
-      !this.$v.email.email && errors.push('Must be valid e-mail')
-      !this.$v.email.required && errors.push('Veuillez remplir ce champs')
-      return errors},
-     
-    passwordErrors (){
-      const errors = []
-      if (!this.$v.password.$dirty) return errors
-      !this.$v.password.minLength && errors.push('Votre Mot de passe doit faire minimum 7 caractere')
-      !this.$v.password.required && errors.push('Veuillez remplir ce champs')
-      return errors}
-      },
+  
 
     methods:{
+      //validation du formulaire
+    setEmail(value){
+      this.email = value
+      this.$v.email.$touch()},
+    setPassword(value){
+      this.password = value
+      this.$v.password.$touch()},
+
       UserLogin(){
           axios.post("http://localhost:3000/api/auth/login",{
-            headers: {Authorization: `bearer `},
-          user_email: this.form.email,
-          user_password: this.form.password,
+          email: this.email,
+          password: this.password,
       }).then((res) => {
          const token =  res.data.token;
         const userId = res.data.userId;
@@ -71,8 +69,8 @@ export default {
 
         localStorage.setItem('userId', userId);
         localStorage.setItem('token', token);
-        this.$router.push("/groupomania")
-        this.$router.go("/groupomania")
+        this.$router.push("/");
+        
                
       }).catch(() => {
         alert("mot de passe ou email incorrect")
@@ -81,9 +79,9 @@ export default {
    },
   
    validForm(){
-     if (this.$v.email.$dirty === false && this.$v.password.$dirty === false){ 
-           this.UserLogin()
-         }
+     if (this.$v.$invalid){ 
+           alert('mot de passe ou email incorrect')
+         }else{this.UserLogin()}
    }}
 }
 </script>
