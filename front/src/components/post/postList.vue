@@ -8,19 +8,23 @@
 
 
 <script>
-
-import posts from './posts.vue'
+import posts from "./posts.vue";
 
 export default {
-    name: 'postList',
-   components:{
-       posts
-   }
-}
+  name: "postList",
+  components: {
+    posts,
+  },
+};
+
 </script>
 
 <style scoped>
-
+/* selecteur general */
+ul{
+   padding-left: 0px;
+ }
+/* positionnement des post */
 .positionPostData {
   display: flex;
   justify-content: center;

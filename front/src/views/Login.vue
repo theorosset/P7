@@ -57,19 +57,19 @@ export default {
       this.password = value
       this.$v.password.$touch()},
 
-      UserLogin(){
-          axios.post("http://localhost:3000/api/auth/login",{
-          email: this.email,
-          password: this.password,
+    UserLogin(){
+        axios.post("http://localhost:3000/api/auth/login",{
+        email: this.email,
+        password: this.password,
       }).then((res) => {
-         const token =  res.data.token;
-        const userId = res.data.userId;
+          const token =  res.data.token;
+          const userId = res.data.userId;
 
-        axios.defaults.headers.common.Authorization = 'Bearer ' + token;
+          axios.defaults.headers.common.Authorization = 'Bearer ' + token;
 
-        localStorage.setItem('userId', userId);
-        localStorage.setItem('token', token);
-        this.$router.push("/");
+          localStorage.setItem('userId', userId);
+          localStorage.setItem('token', token);
+          this.$router.push("/");
         
                
       }).catch(() => {

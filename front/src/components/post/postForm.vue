@@ -12,42 +12,64 @@
 
 
 <script>
-    export default {
-        name: 'postForm',
-        data() {
-            return {
-                form: {
-                    text: ''
-                },
-            }
-        },
-        methods: {
-            /**
-             * création d'un status 
-             * method: post
-             * body: envoie des information qu'attend le backend       
-             * headers: définis les headers
-             */
-            createPost() {
-                const token = localStorage.getItem('token')
-                const date = new Date()
-                const dateNow = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
-                const dateTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-                const fullDate = `${dateNow} ${dateTime}`
-                console.log(dateNow);
-                
-                fetch('http://localhost:3000/api/groupomania', {
-                    method: "POST",
-                    body: JSON.stringify({ text: this.form.text, date: fullDate}),
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                    }
-                }).then(() => { alert('Votre status a bien été créé') }).catch(() =>alert(`Votre status n'a pas pus être créer`) );
-            }
-        }
-    }
+import axios from "axios";
+
+export default {
+  name: "postForm",
+  data() {
+    return {
+      form: {
+        text: "",
+      },
+    };
+  },
+  methods: {
+    dateFormat() {
+      const date = new Date();
+      const dateNow =
+        date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+      const dateTime =
+        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      const fullDate = `${dateNow} ${dateTime}`;
+      return fullDate;
+    },
+    /**
+     * création d'un status
+     * method: post
+     * body: envoie des information qu'attend le backend
+     * headers: définis les headers
+     */
+    createPost() {
+      const token = localStorage.getItem("token");
+
+      axios
+        .post(
+          "http://localhost:3000/api/groupomania",
+          {
+            text: this.form.text,
+            date: this.dateFormat(),
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then(() => {
+          this.getAllPost();
+        })
+        .catch(() => alert(`Votre status n'a pas pus être créer`));
+    },
+
+    getAllPost() {
+      axios.get("http://localhost:3000/api/groupomania").then((res) => {
+        this.$store.state.posts = res.data;
+      });
+    },
+  },
+};
 
 </script>
 
