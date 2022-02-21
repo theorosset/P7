@@ -74,6 +74,7 @@ export default {
       this.password = value
       this.$v.password.$touch()},
 
+  //envoie des information au back et redirection sur la connexion
    UserCreate(){
      axios.post("http://localhost:3000/api/auth/signup",{
         lastName: this.lastName,
@@ -81,7 +82,7 @@ export default {
         email: this.email,
         password: this.password,
      }).then(() => {
-      this.$router.push("/login");       
+      this.$router.push("/login");
      }).catch(() => {
       alert("Adress mail déjà utilisé")
      });

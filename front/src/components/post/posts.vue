@@ -1,15 +1,15 @@
 <template>
-    <div class="posts">
-        <li class="postData" v-for="post in posts" :key="post.user" >
-            <div class="namePost">
-                <h3 class="name">{{post.firstName}}</h3>
-                <h3 class="name">{{ post.lastName }}</h3>
-            </div>
-            <div class="postText">
-                <p class="postOfPersonne">{{post.text}}</p>
-            </div>
-        </li>
-    </div>
+  <div class="posts">
+    <li class="postData" v-for="post in posts" :key="post.user" >
+      <div class="namePost">
+        <h3 class="name">{{post.firstName}}</h3>
+        <h3 class="name">{{ post.lastName }}</h3>
+      </div>
+      <div class="postText">
+        <p class="postOfPersonne">{{post.text}}</p>
+      </div>
+    </li>
+  </div>
 </template>
 
 
@@ -20,23 +20,29 @@ import axios from 'axios'
 
 export default {
     name: 'posts',
-
+    components:{
+      
+    },
     data(){
       return {
         posts: []
       }      
     },
-
-    mounted(){
-      this.getAllPost()
+    props:{
+      type: Object,
     },
 
-    methods:{
+   async mounted(){
+     await this.$nextTick
+     await this.getAllPost()
+    },
+
+  methods:{
+
       getAllPost(){
         axios.get('http://localhost:3000/api/groupomania')
-        .then((res) => {this.posts = res.data })
-       
-    }
+        .then((res) => {this.posts = res.data }) 
+      },
   }
 }
 

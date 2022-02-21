@@ -19,8 +19,7 @@ export default{
     components :{
         headerGroupomania,
         postForm,
-        postList
-        
+        postList  
     },
     
 }

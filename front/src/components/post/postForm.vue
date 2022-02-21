@@ -19,7 +19,6 @@
                 form: {
                     text: ''
                 },
-
             }
         },
         methods: {
@@ -31,21 +30,24 @@
              */
             createPost() {
                 const token = localStorage.getItem('token')
-
+                const date = new Date()
+                const dateNow = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
+                const dateTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                const fullDate = `${dateNow} ${dateTime}`
+                console.log(dateNow);
+                
                 fetch('http://localhost:3000/api/groupomania', {
                     method: "POST",
-                    body: JSON.stringify({ text: this.form.text }),
+                    body: JSON.stringify({ text: this.form.text, date: fullDate}),
                     headers: {
                         Authorization: `Bearer ${token}`,
                         Accept: "application/json",
                         "Content-Type": "application/json",
                     }
-                }).then(() => { alert('Votre status a bien été créé') }).catch((err) => console.log(err));
-
+                }).then(() => { alert('Votre status a bien été créé') }).catch(() =>alert(`Votre status n'a pas pus être créer`) );
             }
         }
     }
-
 
 </script>
 
