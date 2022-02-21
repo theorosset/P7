@@ -52,23 +52,24 @@ const createPost = (req, res, next) => {
 const deletePost = (req, res, next) => {
   //requête sql pour selection le post a supprimer
   //utiliser count
-  const sqlSelect = "SELECT * From posts WHERE `posts`.`post_num` = ?";
+  const sqlSelect = "SELECT * From posts WHERE `posts`.`id` = ?";
 
   const postDelete = {
-    post_num: req.params.id,
+    id: req.params.id,
   };
   //récuperation du post a supprimer
-  db.query(sqlSelect, postDelete.post_num, (err, results) => {
+  db.query(sqlSelect, postDelete.id, (err, results) => {
     console.log(results);
+
     //si l'id du post est differant de celui du créateur
-    if (results[0].post_id !== req.auth.userId) {
+    if (results[0].user !== req.auth.userId) {
       return res.status(403).json({ message: "ceci n'est pas votre status" });
     } else {
       //requête sql pour supprimer le post
-      const sqlDelete = "DELETE FROM posts WHERE `posts`.`post_num` = ?";
+      const sqlDelete = "DELETE FROM posts WHERE `posts`.`id` = ?";
 
       //suppression du post
-      db.query(sqlDelete, postDelete.post_num, (err, results) => {
+      db.query(sqlDelete, postDelete.id, (err, results) => {
         if (err) {
           return res.status(500).json(err);
         } else {
@@ -83,14 +84,13 @@ const deletePost = (req, res, next) => {
  */
 const updatePost = (req, res, next) => {
   //requête sql pour selectionner le status a modifier
-  const sqlSelect = "SELECT * From posts WHERE `posts`.`post_num` = ?";
+  const sqlSelect = "SELECT * From posts WHERE `posts`.`id` = ?";
   //requête sql pour modifier le status
-  const sqlUpdate =
-    "UPDATE `posts` SET `post_post` = ? WHERE `posts`.`post_num` = ?";
+  const sqlUpdate = "UPDATE `posts` SET `text` = ? WHERE `posts`.`id` = ?";
 
   const postUpdate = {
-    post_num: req.params.id,
-    post_post: req.body.post_post,
+    id: req.params.id,
+    text: req.body.post_post,
   };
   //recupération du status a modifier
   db.query(sqlSelect, postUpdate.post_num, (err, results) => {
