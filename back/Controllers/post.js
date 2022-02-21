@@ -5,11 +5,13 @@ const db = require("../config/db-config");
  */
 const getAllPost = (req, res, next) => {
   /**
-   *ajouter le nom et prenom des personne qui on créer les post
-   *avec une jointure
+   *  requête sql
+   *  recupération du nom et du prenom de la personne qui a créer le post.
+   *  recupération de la date de création.
+   *  trier par rapport a la date
    */
   const sql =
-    "SELECT posts.id, lastName, firstName, text FROM posts INNER JOIN users ON posts.user = users.id";
+    "SELECT posts.id, lastName, firstName, date, text FROM posts INNER JOIN users ON posts.user = users.id ORDER BY date DESC";
   db.execute(sql, (err, result) => {
     if (err) {
       return res.status(500).json({ message: " aucun post est  présent" });
@@ -26,10 +28,8 @@ const createPost = (req, res, next) => {
   const userId = req.auth.userId;
 
   // requête sql
-
   const sql = "INSERT INTO posts SET ?";
   // information a ajouter dans la BDD
-
   const post = {
     ...req.body,
     user: userId,
