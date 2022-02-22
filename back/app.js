@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", userRoute);
-app.use("/api/groupomania", postRoute);
-app.use("/api/comment", commentRoute);
+app.use("/api/groupomania/post", postRoute);
+app.use("/api/groupomania/comment", commentRoute);
 
 module.exports = app;

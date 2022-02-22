@@ -7,7 +7,7 @@ const db = require("../config/db-config");
  * connexion
  */
 const login = (req, res, next) => {
-  const { email, password: passNotHash } = req.body;
+  const { password: passNotHash } = req.body;
   try {
     const sqlUser = "SELECT * FROM users WHERE email = ?";
 

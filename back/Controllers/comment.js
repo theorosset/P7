@@ -26,7 +26,6 @@ const createComment = (req, res, next) => {
 
   //ajout a la base de donner
   db.query(sql, comment, (err, results) => {
-    console.log(results);
     if (err) {
       return res.status(400).json(err);
     } else {
@@ -68,4 +67,56 @@ const deleteComment = (req, res, next) => {
   });
 };
 
-module.exports = { getAllComment, createComment, deleteComment };
+const allLikeComment = (req, res, next) => {
+  const commentId = req.params.id;
+  const sqlCount = `SELECT COUNT(likes.comment_id) FROM likes WHERE likes.comment_id = ${commentId}`;
+
+  db.query(sqlCount, (err, result) => {
+    if (err) {
+      return res.status(500).json({ err });
+    } else {
+      return res.status(200).json({ message: result });
+    }
+  });
+};
+
+const likeComment = (req, res, next) => {
+  const userId = req.body.user;
+  const commentId = req.params.id;
+  const sql = `SELECT likes.user FROM likes WHERE likes.user = ${userId} AND likes.comment_id = ${commentId}`;
+
+  db.query(sql, (err, result) => {
+    if (userId && userId != req.auth.userId) {
+      return res
+        .status(403)
+        .json({ message: "Vous n'êtes pas le bonne utilisateur" });
+    }
+    if (result.length === 1) {
+      const sqlDelete = `DELETE FROM likes WHERE likes.user = ${userId} AND likes.comment_id = ${commentId} `;
+      db.query(sqlDelete, (err, result) => {
+        if (err) {
+          return res.status(500).json({ err });
+        } else {
+          return res.status(200).json({ message: "like retiré" });
+        }
+      });
+    } else {
+      const sqlAdd = `INSERT INTO likes (user, comment_id) VALUES (${userId},${commentId})  `;
+      db.query(sqlAdd, (err, result) => {
+        if (err) {
+          return res.status(500).json({ err });
+        } else {
+          return res.status(200).json({ message: "like ajouté" });
+        }
+      });
+    }
+  });
+};
+
+module.exports = {
+  getAllComment,
+  createComment,
+  deleteComment,
+  likeComment,
+  allLikeComment,
+};

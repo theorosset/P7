@@ -37,7 +37,13 @@ const createPost = (req, res, next) => {
 
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
-    console.log(results);
+    if (req.body.text === "") {
+      return res
+        .status(400)
+        .json({
+          message: "Votre status est vide écrivez d'abord quelque chose",
+        });
+    }
     if (err) {
       return res.status(400).json(err);
     } else {
@@ -116,13 +122,30 @@ const deletePost = (req, res, next) => {
 //   });
 // };
 
+const allLikePost = (req, res, next) => {
+  const postId = req.params.id;
+  const sqlCount = `SELECT COUNT(likes.comment_id) FROM likes WHERE likes.post_id = ${postId}`;
+
+  db.query(sqlCount, (err, result) => {
+    if (err) {
+      return res.status(500).json({ err });
+    } else {
+      return res.status(200).json({ message: result });
+    }
+  });
+};
+
 const like = (req, res, next) => {
   const userId = req.body.user;
   const postId = req.params.id;
   const sql = `SELECT likes.user FROM likes WHERE likes.user = ${userId} AND likes.post_id = ${postId}`;
 
   db.query(sql, (err, result) => {
-    console.log(result);
+    if (userId && userId != req.auth.userId) {
+      return res
+        .status(403)
+        .json({ message: "Vous n'êtes pas le bonne utilisateur" });
+    }
     if (result.length === 1) {
       const sqlDelete = `DELETE FROM likes WHERE likes.user = ${userId} AND likes.post_id = ${postId} `;
       db.query(sqlDelete, (err, result) => {
@@ -145,4 +168,4 @@ const like = (req, res, next) => {
   });
 };
 
-module.exports = { getAllPost, createPost, deletePost, like };
+module.exports = { getAllPost, createPost, deletePost, like, allLikePost };
