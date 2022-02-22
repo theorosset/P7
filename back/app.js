@@ -1,6 +1,7 @@
 const express = require("express");
 const userRoute = require("./Routes/User");
 const postRoute = require("./Routes/Post");
+const commentRoute = require("./Routes/Comment");
 const app = express();
 app.use(express.json());
 
@@ -31,5 +32,6 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", userRoute);
 app.use("/api/groupomania", postRoute);
+app.use("/api/comment", commentRoute);
 
 module.exports = app;

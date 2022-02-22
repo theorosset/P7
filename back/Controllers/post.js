@@ -81,40 +81,68 @@ const deletePost = (req, res, next) => {
 };
 /**
  * mise a jours d'un post
+ * TODO apres formation
  */
-const updatePost = (req, res, next) => {
-  //requête sql pour selectionner le status a modifier
-  const sqlSelect = "SELECT * From posts WHERE `posts`.`id` = ?";
-  //requête sql pour modifier le status
-  const sqlUpdate = "UPDATE `posts` SET `text` = ? WHERE `posts`.`id` = ?";
+// const updatePost = (req, res, next) => {
+//   //requête sql pour selectionner le status a modifier
+//   const sqlSelect = "SELECT * From posts WHERE `posts`.`id` = ?";
+//   //requête sql pour modifier le status
+//   const sqlUpdate = "UPDATE `posts` SET `text` = ? WHERE `posts`.`id` = ?";
 
-  const postUpdate = {
-    id: req.params.id,
-    text: req.body.post_post,
-  };
-  //recupération du status a modifier
-  db.query(sqlSelect, postUpdate.post_num, (err, results) => {
-    console.log(results);
-    if (results[0].post_id !== req.auth.userId) {
-      return res.status(403).json({ message: "ceci n'est pas votre status" });
-    } else {
-      //modification du status
-      db.execute(
-        sqlUpdate,
-        [postUpdate.post_post, postUpdate.post_num],
-        (err, results) => {
-          console.log(results);
-          if (err) {
-            return res.status(400).json(err);
-          } else {
-            return res.status(200).json({ message: "status modifier" });
-          }
+//   const postUpdate = {
+//     id: req.params.id,
+//     text: req.body.text,
+//   };
+//   //recupération du status a modifier
+//   db.query(sqlSelect, postUpdate.post_num, (err, results) => {
+//     console.log(results);
+//     if (results[0].post_id !== req.auth.userId) {
+//       return res.status(403).json({ message: "ceci n'est pas votre status" });
+//     } else {
+//       //modification du status
+//       db.execute(
+//         sqlUpdate,
+//         [postUpdate.post_post, postUpdate.post_num],
+//         (err, results) => {
+//           console.log(results);
+//           if (err) {
+//             return res.status(400).json(err);
+//           } else {
+//             return res.status(200).json({ message: "status modifier" });
+//           }
+//         }
+//       );
+//     }
+//   });
+// };
+
+const like = (req, res, next) => {
+  const userId = req.body.user;
+  const postId = req.params.id;
+  const sql = `SELECT likes.user FROM likes WHERE likes.user = ${userId} AND likes.post_id = ${postId}`;
+
+  db.query(sql, (err, result) => {
+    console.log(result);
+    if (result.length === 1) {
+      const sqlDelete = `DELETE FROM likes WHERE likes.user = ${userId} AND likes.post_id = ${postId} `;
+      db.query(sqlDelete, (err, result) => {
+        if (err) {
+          return res.status(500).json({ err });
+        } else {
+          return res.status(200).json({ message: "like retiré" });
         }
-      );
+      });
+    } else {
+      const sqlAdd = `INSERT INTO likes (user, post_id) VALUES (${userId},${postId})  `;
+      db.query(sqlAdd, (err, result) => {
+        if (err) {
+          return res.status(500).json({ err });
+        } else {
+          return res.status(200).json({ message: "like ajouté" });
+        }
+      });
     }
   });
 };
 
-const like = (req, res, next) => {};
-
-module.exports = { getAllPost, createPost, deletePost, updatePost, like };
+module.exports = { getAllPost, createPost, deletePost, like };
