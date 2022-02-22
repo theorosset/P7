@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import index from "../views/index.vue";
+
 Vue.use(VueRouter);
 
 const routes = [

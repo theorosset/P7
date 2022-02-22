@@ -1,5 +1,5 @@
 <template>
-<div class="Groupomania">
+<div class="Groupomania" v-bind="setTime()">
        <headerGroupomania />
        <postForm />
        <postList />   
@@ -19,8 +19,13 @@ export default{
     components :{
         headerGroupomania,
         postForm,
-        postList  
+        postList
     },
-    
+    methods:{
+        //suppression du token dans le localStorage au bout de 24h
+        setTime(){
+            setTimeout(()=>{localStorage.clear()}, 86400000)
+        }
+    }
 }
 </script>

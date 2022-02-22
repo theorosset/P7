@@ -11,12 +11,12 @@
         <div class="error" v-if="$v.email.$invalid">* Renseignez un email valide</div>
 
         <label class="label_password" for="password">Mot de passe </label>
-        <input v-model="password"  @blur="$v.password.$touch()" @input="setPassword($event.target.value)" required type="password" name="password" id="password" class="champ_form">
+        <input v-model="password"  @blur="$v.password.$touch()" @input="setPassword($event.target.value)"  required type="password" name="password" id="password" class="champ_form">
           
         <div class="error" v-if="!$v.password.required">* Champs requis</div>
         <div class="error" v-if="!$v.password.minLength">* minimum {{$v.password.$params.minLength.min}} lettre.</div>
 
-        <input type="submit" id="submit" value="connexion">
+        <input type="submit" id="submit"  value="connexion">
 
       </form>
       
@@ -47,7 +47,6 @@ export default {
           password:{required, minLength: minLength(7)},
   },
   
-
     methods:{
       //validation du formulaire
     setEmail(value){
@@ -69,6 +68,7 @@ export default {
 
           localStorage.setItem('userId', userId);
           localStorage.setItem('token', token);
+          
           this.$router.push("/");
         
                
@@ -82,7 +82,9 @@ export default {
      if (this.$v.$invalid){ 
            alert('mot de passe ou email incorrect')
          }else{this.UserLogin()}
-   }}
+   },
+   
+  }
 }
 </script>
 

@@ -3,7 +3,7 @@
         <div class="post">
             <div class="picture"></div>
             <form class="formPost" @submit.prevent="createPost()">
-                <textarea v-model="form.text" class="createPost" type="text" placeholder="Quelque chose a raconter ?"></textarea>
+                <textarea v-model="form.text" class="createPost" type="text"  spellcheck="false" placeholder="Quelque chose a raconter ?"></textarea>
                 <input class="submitPost" type="submit">
             </form>
         </div>
@@ -44,7 +44,7 @@ export default {
 
       axios
         .post(
-          "http://localhost:3000/api/groupomania",
+          "http://localhost:3000/api/groupomania/post",
           {
             text: this.form.text,
             date: this.dateFormat(),
@@ -64,7 +64,15 @@ export default {
     },
 
     getAllPost() {
-      axios.get("http://localhost:3000/api/groupomania").then((res) => {
+      const token = localStorage.getItem("token");
+
+      axios.get("http://localhost:3000/api/groupomania/post",{
+        headers:{
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+      }).then((res) => {
         this.$store.state.posts = res.data;
       });
     },
@@ -97,6 +105,8 @@ export default {
 }
 
 .createPost {
+  font-family: sans-serif;
+  font-size: 14px;
   display: flex;
   height: 55px;
   width: 280px;
