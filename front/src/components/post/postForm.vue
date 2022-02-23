@@ -1,10 +1,10 @@
 <template>
     <section class="positionPost">
         <div class="post">
-            <div class="picture"></div>
+         <postPicture />
             <form class="formPost" @submit.prevent="createPost()">
                 <textarea v-model="form.text" class="createPost" type="text"  spellcheck="false" placeholder="Quelque chose a raconter ?"></textarea>
-                <input class="submitPost" type="submit">
+                <input class="submitPost" type="submit" value="Publier">
             </form>
         </div>
     </section>
@@ -13,6 +13,7 @@
 
 <script>
 import axios from "axios";
+import postPicture from "./postPicture.vue"
 
 export default {
   name: "postForm",
@@ -22,6 +23,9 @@ export default {
         text: "",
       },
     };
+  },
+  components:{
+    postPicture
   },
   methods: {
     dateFormat() {
@@ -93,16 +97,16 @@ export default {
   display: flex;
   width: 500px;
   border: 1px solid black;
+  border-radius: 5px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
 }
 
-.picture {
-  border: 1px solid black;
-  width: 55px;
-  height: 55px;
-  border-radius: 100px;
+.border{
+  display: flex;
 }
+
+
 
 .createPost {
   font-family: sans-serif;
@@ -110,7 +114,8 @@ export default {
   display: flex;
   height: 55px;
   width: 280px;
-  margin-left: 10px;
+  border-radius: 5px;
+  box-shadow: none;
   resize: none;
 }
 .formPost {
@@ -122,10 +127,11 @@ export default {
   position: relative;
   height: 25px;
   width: 70px;
-  margin-left: 10px;
+  margin-left: 19px;
+  margin-right: 15px;
   background-color: rgba(10, 132, 255, 1);
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
