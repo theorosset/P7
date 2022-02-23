@@ -12,9 +12,8 @@ export default {
 <style scoped>
 #picture {
   border: 1px solid black;
-  font-size: 30px;
   border-radius: 100px;
-  padding: 0.7rem;
+  
 }
 
 </style>

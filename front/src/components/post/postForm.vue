@@ -1,7 +1,7 @@
 <template>
     <section class="positionPost">
         <div class="post">
-         <postPicture />
+         <postPicture class="picture" />
             <form class="formPost" @submit.prevent="createPost()">
                 <textarea v-model="form.text" class="createPost" type="text"  spellcheck="false" placeholder="Quelque chose a raconter ?"></textarea>
                 <input class="submitPost" type="submit" value="Publier">
@@ -135,4 +135,8 @@ export default {
   cursor: pointer;
 }
 
+.picture{
+  padding: 0.7rem;
+  font-size: 30px;
+}
 </style>
