@@ -5,7 +5,7 @@
           <i id="deletBtn" @click="delet(post.id)" class="fas fa-trash"></i>
         </div>
         <div class="namePost">
-          <postPicture  class="picture"/>
+          <pictureUser class="picture"/>
           <h3 class="firstName">{{post.firstName}}</h3>
           <h3 class="lastName">{{ post.lastName }}</h3>
         </div>
@@ -26,7 +26,7 @@
 <script>
 import axios from "axios";
 import like from './postBtnLike.vue'
-import postPicture from './postPicture.vue'
+import pictureUser from '../indexPage/pictureUser.vue'
 import commentList from "../comment/commentList.vue"
 
 
@@ -51,7 +51,7 @@ export default {
   },
   components: {
     like,
-    postPicture,
+    pictureUser,
     commentList,
   },
 

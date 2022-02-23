@@ -1,7 +1,7 @@
 <template>
     <section class="positionPost">
         <div class="post">
-         <postPicture class="picture" />
+         <pictureUser class="picture" />
             <form class="formPost" @submit.prevent="createPost()">
                 <textarea v-model="form.text" class="createPost" type="text"  spellcheck="false" placeholder="Quelque chose a raconter ?"></textarea>
                 <input class="submitPost" type="submit" value="Publier">
@@ -13,7 +13,7 @@
 
 <script>
 import axios from "axios";
-import postPicture from "./postPicture.vue"
+import pictureUser from "../indexPage/pictureUser.vue"
 
 export default {
   name: "postForm",
@@ -25,9 +25,12 @@ export default {
     };
   },
   components:{
-    postPicture
+    pictureUser
   },
   methods: {
+    /**
+     * formattage de la date
+     */
     dateFormat() {
       const date = new Date();
       const dateNow =
@@ -39,13 +42,14 @@ export default {
     },
     /**
      * création d'un status
-     * method: post
-     * body: envoie des information qu'attend le backend
-     * headers: définis les headers
      */
     createPost() {
       const token = localStorage.getItem("token");
-
+      /**
+       * method: post
+       * body: envoie des information qu'attend le backend
+       * headers: envoie du token pour verification de validité
+       */
       axios
         .post(
           "http://localhost:3000/api/groupomania/post",
@@ -61,15 +65,21 @@ export default {
             },
           }
         )
+        //une fois le post créer on récupêre tout les post 
         .then(() => {
           this.getAllPost();
         })
         .catch(() => alert(`Votre status n'a pas pus être créer`));
     },
-
+  /**
+   * récuperation des status
+   */
     getAllPost() {
       const token = localStorage.getItem("token");
-
+    /**
+     * methode: get
+     * headers: envoie du token pour verification de validité
+     */
       axios.get("http://localhost:3000/api/groupomania/post",{
         headers:{
               Authorization: `Bearer ${token}`,

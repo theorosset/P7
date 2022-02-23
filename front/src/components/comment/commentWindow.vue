@@ -2,7 +2,7 @@
   <div class="commentWindow">
     <li class="containerComment" v-for="comment in $store.state.comments" :key="comment.user" > 
       <div class="name">
-        <postPicture  class="picture"/>
+        <pictureUser  class="picture"/>
         <div class="commentUserText">
           <h4 class="firstName">{{comment.firstName}}</h4>
           <h4 class="lastName">{{ comment.lastName }}</h4>
@@ -18,7 +18,7 @@
 
 <script>
 import axios from 'axios'
-import postPicture from '../post/postPicture.vue'
+import pictureUser from '../indexPage/pictureUser.vue'
 
 
 export default {
@@ -26,7 +26,7 @@ export default {
     props: {
   },
   components:{
-    postPicture
+    pictureUser
   },
  async mounted(){
     await this.$nextTick

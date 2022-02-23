@@ -22,6 +22,9 @@ export default {
     await this.getAllPost();
   },
   methods:{
+    /**
+     * récuperation des status
+     */
      getAllPost() {
       const token = localStorage.getItem("token");
       axios.get("http://localhost:3000/api/groupomania/post",{
