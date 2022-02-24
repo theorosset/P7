@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : ven. 18 fév. 2022 à 09:05
+-- Généré le : jeu. 24 fév. 2022 à 17:49
 -- Version du serveur : 8.0.28
 -- Version de PHP : 8.1.2
 
@@ -24,12 +24,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `like`
+-- Structure de la table `comments`
 --
 
-CREATE TABLE `like` (
-  `like_userId` mediumint NOT NULL,
-  `like_postId` mediumint NOT NULL
+CREATE TABLE `comments` (
+  `id` mediumint NOT NULL,
+  `user` int NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  `post_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `comments`
+--
+
+INSERT INTO `comments` (`id`, `user`, `text`, `date`, `post_id`) VALUES
+(29, 30, 'oui', '2022-02-24 17:17:11', 190),
+(30, 30, 'ok', '2022-02-24 17:18:43', 191),
+(31, 30, 'oui', '2022-02-24 17:29:18', 190),
+(32, 30, 'ok', '2022-02-24 17:41:45', 189),
+(33, 30, 'ok', '2022-02-24 17:45:38', 189),
+(34, 30, 'oui', '2022-02-24 17:52:23', 191),
+(35, 30, 'oui', '2022-02-24 18:04:39', 191),
+(36, 30, 'f', '2022-02-24 18:05:42', 191);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `likes`
+--
+
+CREATE TABLE `likes` (
+  `id` int NOT NULL,
+  `user` int NOT NULL,
+  `post_id` mediumint DEFAULT NULL,
+  `comment_id` mediumint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -39,10 +69,20 @@ CREATE TABLE `like` (
 --
 
 CREATE TABLE `posts` (
-  `post_num` mediumint NOT NULL,
-  `post_post` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `post_id` mediumint NOT NULL
+  `id` mediumint NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user` mediumint NOT NULL,
+  `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `posts`
+--
+
+INSERT INTO `posts` (`id`, `text`, `user`, `date`) VALUES
+(189, 'oke\n', 30, '2022-02-24 14:12:03'),
+(191, 'ok', 30, '2022-02-24 16:21:23'),
+(194, 'oui', 30, '2022-02-24 18:44:52');
 
 -- --------------------------------------------------------
 
@@ -51,54 +91,78 @@ CREATE TABLE `posts` (
 --
 
 CREATE TABLE `users` (
-  `user_id` mediumint NOT NULL,
-  `user_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_firstname` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `id` mediumint NOT NULL,
+  `lastName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_name`, `user_firstname`, `user_email`, `user_password`) VALUES
-(16, 'jack', 'jackajck', 'jack@omail.fr', '$2b$10$jLY4jkd5YN9lo9n1VcD8we6NCtGK9B2BdepqLL17lEpUOkvygcAO.'),
-(17, 'block', 'jockjck', 'block@omail.fr', '$2b$10$2Ld4aj1FXldlSnNOsdUdQO2x7B6ztIn.TgtHoMsEZe4EA1plU0g0.'),
-(23, 'rosset', 'theo', 'theo.rosset@outlook.fr', '$2b$10$wliJP0wpGeD3xEavTwyeuOgY7ixtSfskzU5jcQYTue277okmrMabG');
+INSERT INTO `users` (`id`, `lastName`, `firstname`, `email`, `password`) VALUES
+(29, 'attend jeanjack', 'jackob', 'jeanjack@jackob.fr', '$2b$10$a.V.MShpvoHoPayJUeG/3eil5YiAiG4Gy3UgVuhgZvKKdyPgzm7P2'),
+(30, 'rosset', 'theo', 'theo.rosset@outlook.fr', '$2b$10$V/CTdo50WUJ/ClBCJXMhROtnqamOhNn4gl/QGJB.1Hxd2G7L.md1S'),
+(31, 'fail', 'Theo', 'theo.fail@outlook.fr', '$2b$10$v5hRGoHYEUIq.L4cper8G.N2dVUwqekWVN8j3GDgNaBX1pSZSLQs.');
 
 --
 -- Index pour les tables déchargées
 --
 
 --
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `posts`
 --
 ALTER TABLE `posts`
-  ADD UNIQUE KEY `post_num` (`post_num`);
+  ADD UNIQUE KEY `post_num` (`id`);
 
 --
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_email` (`user_email`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_email` (`email`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT pour la table `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
+
+--
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `post_num` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
