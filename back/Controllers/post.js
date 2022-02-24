@@ -38,11 +38,9 @@ const createPost = (req, res, next) => {
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
     if (req.body.text === "") {
-      return res
-        .status(400)
-        .json({
-          message: "Votre status est vide écrivez d'abord quelque chose",
-        });
+      return res.status(400).json({
+        message: "Votre status est vide écrivez d'abord quelque chose",
+      });
     }
     if (err) {
       return res.status(400).json(err);
@@ -76,6 +74,7 @@ const deletePost = (req, res, next) => {
 
       //suppression du post
       db.query(sqlDelete, postDelete.id, (err, results) => {
+        console.log(results);
         if (err) {
           return res.status(500).json(err);
         } else {
@@ -122,15 +121,30 @@ const deletePost = (req, res, next) => {
 //   });
 // };
 
-const allLikePost = (req, res, next) => {
+const allUserLikePost = (req, res, next) => {
   const postId = req.params.id;
-  const sqlCount = `SELECT COUNT(likes.comment_id) FROM likes WHERE likes.post_id = ${postId}`;
 
-  db.query(sqlCount, (err, result) => {
+  //requête sql pour récuperer les utilisateurs qui on déjà like le post
+  const sqlSelect = `SELECT user FROM likes WHERE likes.post_id = ${postId}`;
+
+  db.query(sqlSelect, (err, results) => {
     if (err) {
       return res.status(500).json({ err });
     } else {
-      return res.status(200).json({ message: result });
+      return res.status(200).json(results);
+    }
+  });
+};
+
+const allLikePost = (req, res, next) => {
+  //requête sql pour compter le nombres de like relatif a un post
+  const sqlCount = `SELECT COUNT(likes.post_id) FROM likes WHERE likes.post_id = ${postId}`;
+
+  db.query(sqlCount, (err, results) => {
+    if (err) {
+      return res.status(500).json({ err });
+    } else {
+      return res.status(200).json(results);
     }
   });
 };
@@ -168,4 +182,11 @@ const like = (req, res, next) => {
   });
 };
 
-module.exports = { getAllPost, createPost, deletePost, like, allLikePost };
+module.exports = {
+  getAllPost,
+  createPost,
+  deletePost,
+  like,
+  allUserLikePost,
+  allLikePost,
+};
