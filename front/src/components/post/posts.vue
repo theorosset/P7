@@ -1,6 +1,6 @@
 <template>
     <div class="posts">
-      <li class="postData"  v-for="post in $store.state.posts"  :key="post.id" >
+      <li class="postData"  v-for="post in $store.state.posts" :postId="post.id" :key="post.id" >
         <div class="delet">
           <i id="deletBtn" @click="delet(post.id)" class="fas fa-trash"></i>
         </div>
@@ -12,11 +12,8 @@
         <div class="postText">
           <p class="postOfPersonne">{{post.text}}</p>
         </div>
-        <div class="like">
-          <btnLike :postId="post.id"/>
-          <i id="commentIcon" @click="openComment(post.id)" class="fas fa-comment"></i>
-          <commentList :postId="post.id" v-if="revele === true" />
-        </div>
+        <btnComment :postId="post.id"/>
+        <commentForm  :postId="post.id" />
       </li>
      
     </div>
@@ -26,10 +23,9 @@
 
 <script>
 import axios from "axios";
-import btnLike from './postBtnLike.vue'
 import pictureUser from '../indexPage/pictureUser.vue'
-import commentList from "../comment/commentList.vue"
-
+import commentForm from '../comment/commentForm.vue'
+import btnComment from "./postBtnComment.vue"
 
 
 export default {
@@ -44,22 +40,19 @@ export default {
       form: {
         text: "",
       },
-      revele: false,
     };
   },
   components: {
-    btnLike,
     pictureUser,
-    commentList,
+    btnComment,
+    commentForm
   },
   async mounted(){
     await this.$nextTick
     await this.getAllPost()
   },
   methods: {
-    openComment() {
-      this.revele = !this.revele
-    },
+    
     /**
      * suppression d'un post
      * @param {objectId} //récuperation de l'id du post
@@ -90,7 +83,7 @@ export default {
           },
         })
         .then((res) => {
-          this.$store.state.posts = res.data;
+         return  this.$store.state.posts = res.data;
         });
     },
   },
@@ -158,14 +151,7 @@ li{
   margin-bottom: 0px;
 }
 
-/*bouton delet et modify*/
-#modify{
-  font-size: 13px;
-}
-#modify:hover{
-  cursor: pointer;
-}
-
+/*bouton delet*/
 .delet{
   display: flex;
   align-items: baseline;
@@ -177,19 +163,5 @@ li{
 #deletBtn:hover{
     cursor: pointer;
 }
-
-#commentIcon{
-    cursor: pointer;
-    font-size: 25px;
-}
-
-.like{
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 17px;
-  margin-bottom: 7px;
-} 
-
-
 
 </style>
