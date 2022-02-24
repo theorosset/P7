@@ -1,6 +1,6 @@
 <template>
     <div class="posts">
-      <li class="postData" :post="post.id">
+      <li class="postData"  v-for="post in $store.state.posts"  :key="post.id" >
         <div class="delet">
           <i id="deletBtn" @click="delet(post.id)" class="fas fa-trash"></i>
         </div>
@@ -13,11 +13,12 @@
           <p class="postOfPersonne">{{post.text}}</p>
         </div>
         <div class="like">
-          <like :postId="post.id"/>
-          <i id="commentIcon" @click="openComment" :postId="post.id" class="fas fa-comment"></i>
+          <btnLike :postId="post.id"/>
+          <i id="commentIcon" @click="openComment(post.id)" class="fas fa-comment"></i>
+          <commentList :postId="post.id" v-if="revele === true" />
         </div>
       </li>
-     <commentList :postId="post.id" v-if="revele === true" />
+     
     </div>
 </template>
 
@@ -25,7 +26,7 @@
 
 <script>
 import axios from "axios";
-import like from './postBtnLike.vue'
+import btnLike from './postBtnLike.vue'
 import pictureUser from '../indexPage/pictureUser.vue'
 import commentList from "../comment/commentList.vue"
 
@@ -35,10 +36,7 @@ export default {
   name: "posts",
 
   props: {
-    post: {
-      type: Object,
-      required: true,
-    },
+   
   },
 
   data() {
@@ -50,14 +48,17 @@ export default {
     };
   },
   components: {
-    like,
+    btnLike,
     pictureUser,
     commentList,
   },
-
+  async mounted(){
+    await this.$nextTick
+    await this.getAllPost()
+  },
   methods: {
     openComment() {
-      return (this.revele = !this.revele);
+      this.revele = !this.revele
     },
     /**
      * suppression d'un post

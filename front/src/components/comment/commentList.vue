@@ -19,7 +19,7 @@ export default {
     },
   },
     components:{
-        commentWindow
+        commentWindow,
     },
 }
 </script>
