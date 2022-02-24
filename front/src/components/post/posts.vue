@@ -27,13 +27,10 @@ import pictureUser from '../indexPage/pictureUser.vue'
 import commentForm from '../comment/commentForm.vue'
 import btnComment from "./postBtnComment.vue"
 
-
 export default {
   name: "posts",
 
-  props: {
-   
-  },
+  props: {},
 
   data() {
     return {
@@ -45,14 +42,13 @@ export default {
   components: {
     pictureUser,
     btnComment,
-    commentForm
+    commentForm,
   },
-  async mounted(){
-    await this.$nextTick
-    await this.getAllPost()
+  async mounted() {
+    await this.$nextTick;
+    await this.getAllPost();
   },
   methods: {
-    
     /**
      * suppression d'un post
      * @param {objectId} //récuperation de l'id du post
@@ -61,8 +57,7 @@ export default {
     delet(postId) {
       const token = localStorage.getItem("token");
       // requête a l'api pour supprimer le status
-      axios
-        .delete(`http://localhost:3000/api/groupomania/post/${postId}`, {
+      axios.delete(`http://localhost:3000/api/groupomania/post/${postId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => this.getAllPost())
@@ -83,7 +78,7 @@ export default {
           },
         })
         .then((res) => {
-         return  this.$store.state.posts = res.data;
+          return (this.$store.state.posts = res.data);
         });
     },
   },
@@ -111,8 +106,9 @@ li{
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
-  border: 1px solid black;
+  border: 1px solid rgba(10, 132, 255, 1);
   border-radius: 5px;
+  background-color: rgb(244, 244, 244);
 }
 
 .lastName {
@@ -145,10 +141,11 @@ li{
   margin-top: 0px;
   padding: 5px;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 5px;
   width: 300px;
   margin-bottom: 0px;
+  background-color: white;
 }
 
 /*bouton delet*/

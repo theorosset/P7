@@ -106,10 +106,11 @@ export default {
   height: 100px;
   display: flex;
   width: 500px;
-  border: 1px solid black;
+  border: 1px solid rgba(10, 132, 255, 1);
   border-radius: 5px;
   align-items: center;
   justify-content: space-around;
+  background-color: rgb(244, 244, 244);
 }
 
 .border{

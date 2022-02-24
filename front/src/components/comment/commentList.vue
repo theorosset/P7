@@ -1,5 +1,5 @@
 <template>
-<div class="CommentList">
+<div class="CommentList" >
     <ul class="positionCommentData">
         <commentWindow  :postId="postId"/>
     </ul>
@@ -9,19 +9,19 @@
 <script>
 
 import commentWindow from "./commentWindow.vue"
-
 export default {
-    name: 'commentPage',
-    props: {
+  name: "commentList",
+  props: {
     postId: {
       type: Number,
       required: true,
     },
   },
-    components:{
-        commentWindow,
-    },
-}
+  components: {
+    commentWindow,
+  },
+};
+
 </script>
 
 
@@ -30,6 +30,10 @@ export default {
     list-style: none;
     padding: 0px;
     display: flex;
-    justify-content: center;
+    border-top: 1px solid black;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    
 }
 </style>

@@ -11,8 +11,7 @@
 import posts from "./posts.vue";
 
 export default {
-  name: "postList",
-
+   name: "postList", 
   components: {
     posts,
   },
