@@ -46,7 +46,6 @@ export default {
           "http://localhost:3000/api/groupomania/post",
           {
             text: this.form.text,
-           
           },
           {
             headers: {

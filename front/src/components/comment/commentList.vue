@@ -1,14 +1,15 @@
 <template>
 <div class="CommentList" >
     <ul class="positionCommentData">
-        <commentWindow  :postId="postId"/>
+        <commentWindow :comments="comments" :postId="postId"/>
     </ul>
 </div>
 </template>
 
 <script>
-
+import {mapState, mapActions} from 'vuex'
 import commentWindow from "./commentWindow.vue"
+
 export default {
   name: "commentList",
   props: {
@@ -17,8 +18,20 @@ export default {
       required: true,
     },
   },
+   async mounted(){
+    await this.$nextTick();
+    await this.fetchComments(this.postId)
+  },
+  computed:{
+    ...mapState(['comments'])
+  },
+
   components: {
     commentWindow,
+  }, 
+
+  methods: {
+    ...mapActions(['fetchComments'])
   },
 };
 

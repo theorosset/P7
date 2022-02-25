@@ -19,7 +19,7 @@ export default{
     name:"Groupomania",
 
     computed:{
-        ...mapState(['posts'])
+        ...mapState(['posts']),
     },
 
     components :{

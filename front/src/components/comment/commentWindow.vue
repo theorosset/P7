@@ -1,6 +1,7 @@
 <template>
-  <div class="commentWindow" :postId="postId">
-    <li class="containerComment" v-for="comment in $store.state.comments"  :key="comment.id" > 
+  <div class="commentWindow" >
+    <p  class="noComment" v-if="comments.length == 0">Il n'y a aucun commentaire actuellement ecrivez en un </p>
+    <li v-else class="containerComment"  v-for="comment in comments"  :key="comment.id" > 
       <div class="user">
         <pictureUser  class="picture"/>
         <div class="commentUserText">
@@ -8,35 +9,37 @@
             <h4 class="firstName">{{comment.firstName}}</h4>
             <h4 class="lastName">{{ comment.lastName }}</h4>
           </div>
-          <p class="text">{{comment.text}}</p>
+          <p class="text" >{{comment.text}}</p>
         </div>
       </div>
     </li>
-    
   </div>
 </template>
 
 
 
 <script>
-//import axios from 'axios'
+
 import pictureUser from '../indexPage/pictureUser.vue'
 
 export default {
   name: "commentWindow",
   props: {
+    comments:{
+      type: Array, default: () => ([]) 
+    },
     postId: {
       type: Number,
       required: true,
     },
   },
 
-  data() {
-    return {};
-  },
   components: {
     pictureUser,
   },
+
+  methods:{
+  }
 };
 
 </script>
@@ -58,6 +61,10 @@ export default {
 
 .text{
   margin: 0px;
+}
+
+.noComment{
+  margin-left: 57px;
 }
 
 .name{

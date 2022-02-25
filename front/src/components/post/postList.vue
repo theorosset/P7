@@ -1,7 +1,7 @@
 <template>
   <div class="postList">
     <ul class="positionPostData">
-        <posts :posts="posts" />
+        <posts  :posts="posts" />
     </ul>
   </div>
 </template>

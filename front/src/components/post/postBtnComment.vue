@@ -2,7 +2,7 @@
     <div class="commentAndLike">
         <div class="btn">
             <btnLike  :postId="postId"/>
-            <i id="commentIcon" @click="openComment(postId)" :revele="revele"  class="fas fa-comment"></i>
+            <i id="commentIcon" @click.stop="openComment(postId)" :revele="revele"  class="fas fa-comment"></i>
         </div>
         <commentList  :postId="postId" v-if="revele == true" />
         
@@ -11,7 +11,7 @@
 
 
 <script>
-//import axios from 'axios'
+import { mapActions } from 'vuex'
 import commentList from "../comment/commentList.vue"
 import btnLike from './postBtnLike.vue'
 
@@ -24,13 +24,14 @@ export default {
             required:true
         },
     },
-
-      
     data(){
         return{
         revele: false,
-        
     }
+    },
+   async mounted(){
+        await this.$nextTick();
+        await this.fetchComments(this.postId)
     },
     components:{
         commentList,
@@ -38,6 +39,8 @@ export default {
 
     },
     methods:{
+        ...mapActions(["fetchComments"]),
+
         openComment() {
       this.revele = !this.revele
     },

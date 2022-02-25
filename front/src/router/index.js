@@ -3,20 +3,27 @@ import VueRouter from "vue-router";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import index from "../views/index.vue";
+import axios from "axios";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    //verifier le token si le token est bon
     path: "/",
     name: "index",
     component: index,
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("token")) {
-        next();
-      } else {
-        next("/login");
+      const token = localStorage.getItem("token");
+      if (token) {
+        axios
+          .get(`http://localhost:3000/api/auth/verif`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(() => next())
+          .catch(() => {
+            localStorage.clear();
+            next("/login");
+          });
       }
     },
   },

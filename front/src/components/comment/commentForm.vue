@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios';
+import {mapActions} from 'vuex'
 
 export default {
   data() {
@@ -30,18 +31,7 @@ export default {
   },
 
   methods: {
-    /**
-     * formattage de la date
-     */
-    dateFormat() {
-      const date = new Date();
-      const dateNow =
-        date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-      const dateTime =
-        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-      const fullDate = `${dateNow} ${dateTime}`;
-      return fullDate;
-    },
+    ...mapActions(['fetchComments']),
     /**
      * création d'un commentaire
      */
@@ -58,7 +48,6 @@ export default {
           {
             post_id: this.postId,
             text: this.form.text,
-            date: this.dateFormat(),
           },
           {
             headers: {
@@ -70,22 +59,11 @@ export default {
         )
         //une fois le post créer on récupêre tout les post
         .then(() => {
-          this.getCommentOfOnePost(this.postId);
+          this.fetchComments(this.postId);
         })
         .catch(() => alert(`Votre status n'a pas pus être créer`));
     },
-    getCommentOfOnePost(postId) {
-      const token = localStorage.getItem("token");
-      axios
-        .get(`http://localhost:3000/api/groupomania/comment/${postId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          return (this.$store.state.comments = res.data);
-        });
-    },
+    
   },
 };
 
