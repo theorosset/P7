@@ -12,6 +12,7 @@
 
 
 <script>
+import {mapActions} from 'vuex'
 import axios from "axios";
 import pictureUser from "../indexPage/pictureUser.vue"
 
@@ -28,18 +29,8 @@ export default {
     pictureUser
   },
   methods: {
-    /**
-     * formattage de la date
-     */
-    dateFormat() {
-      const date = new Date();
-      const dateNow =
-        date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-      const dateTime =
-        date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-      const fullDate = `${dateNow} ${dateTime}`;
-      return fullDate;
-    },
+   ...mapActions(['fetchPosts']),
+
     /**
      * création d'un status
      */
@@ -55,7 +46,7 @@ export default {
           "http://localhost:3000/api/groupomania/post",
           {
             text: this.form.text,
-            date: this.dateFormat(),
+           
           },
           {
             headers: {
@@ -67,29 +58,11 @@ export default {
         )
         //une fois le post créer on récupêre tout les post 
         .then(() => {
-          this.getAllPost();
+          this.fetchPosts()
         })
         .catch(() => alert(`Votre status n'a pas pus être créer`));
     },
-  /**
-   * récuperation des status
-   */
-    getAllPost() {
-      const token = localStorage.getItem("token");
-    /**
-     * methode: get
-     * headers: envoie du token pour verification de validité
-     */
-      axios.get("http://localhost:3000/api/groupomania/post",{
-        headers:{
-              Authorization: `Bearer ${token}`,
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-      }).then((res) => {
-        this.$store.state.posts = res.data;
-      });
-    },
+  
   },
 };
 

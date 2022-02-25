@@ -1,7 +1,7 @@
 <template>
   <div class="postList">
     <ul class="positionPostData">
-        <posts />
+        <posts :posts="posts" />
     </ul>
   </div>
 </template>
@@ -12,6 +12,9 @@ import posts from "./posts.vue";
 
 export default {
    name: "postList", 
+      props: {
+     posts: { type: Array, default: () => ([]) },
+   },
   components: {
     posts,
   },

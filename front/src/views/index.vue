@@ -1,8 +1,8 @@
 <template>
-<div class="Groupomania" v-bind="setTime()">
+<div class="Groupomania" >
        <headerGroupomania />
        <postForm />
-       <postList />
+       <postList :posts="posts" />
 </div>
 
 </template>
@@ -10,24 +10,30 @@
 
 
 <script>
-
+import {mapActions, mapState} from 'vuex'
 import headerGroupomania from "../components/indexPage/headerGroupomania.vue"
 import postForm from "../components/post/postForm.vue"
 import postList from "../components/post/postList.vue"
 
 export default{
     name:"Groupomania",
+
+    computed:{
+        ...mapState(['posts'])
+    },
+
     components :{
         headerGroupomania,
         postForm,
         postList,
   
     },
+    async mounted () {
+        await this.$nextTick()
+        await this.fetchPosts()
+    },
     methods:{
-        //suppression du token dans le localStorage au bout de 24h
-        setTime(){
-            setTimeout(()=>{localStorage.clear()}, 86400000)
-        }
+       ...mapActions(['fetchPosts'])
     }
 }
 </script>

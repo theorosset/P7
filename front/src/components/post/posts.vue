@@ -1,8 +1,8 @@
 <template>
     <div class="posts">
-      <li class="postData"  v-for="post in $store.state.posts" :postId="post.id" :key="post.id" >
+      <li class="postData"  v-for="post in posts" :postId="post.id" :key="post.id" >
         <div class="delet">
-          <i id="deletBtn" @click="delet(post.id)" class="fas fa-trash"></i>
+          <i id="deletBtn" @click="deletePost(post.id)" class="fas fa-trash"></i>
         </div>
         <div class="namePost">
           <pictureUser class="picture"/>
@@ -22,7 +22,7 @@
 
 
 <script>
-import axios from "axios";
+import {mapActions} from 'vuex'
 import pictureUser from '../indexPage/pictureUser.vue'
 import commentForm from '../comment/commentForm.vue'
 import btnComment from "./postBtnComment.vue"
@@ -30,7 +30,11 @@ import btnComment from "./postBtnComment.vue"
 export default {
   name: "posts",
 
-  props: {},
+  props: {
+    posts:{
+      type: Array, default: () => ([]) 
+    }
+  },
 
   data() {
     return {
@@ -44,43 +48,9 @@ export default {
     btnComment,
     commentForm,
   },
-  async mounted() {
-    await this.$nextTick;
-    await this.getAllPost();
-  },
-  methods: {
-    /**
-     * suppression d'un post
-     * @param {objectId} //récuperation de l'id du post
-     *
-     * */
-    delet(postId) {
-      const token = localStorage.getItem("token");
-      // requête a l'api pour supprimer le status
-      axios.delete(`http://localhost:3000/api/groupomania/post/${postId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(() => this.getAllPost())
-        .catch(() => {
-          alert("Nous avons pas réussis a supprimer votre status");
-        });
-    },
 
-    //requête a l'api pour récuperer tout les posts
-    getAllPost() {
-      const token = localStorage.getItem("token");
-      axios
-        .get("http://localhost:3000/api/groupomania/post", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          return (this.$store.state.posts = res.data);
-        });
-    },
+  methods: {
+    ...mapActions(['deletePost'])
   },
 };
 

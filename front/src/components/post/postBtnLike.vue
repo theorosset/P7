@@ -17,7 +17,8 @@ export default {
   },
   components: {},
   async mounted() {
-    this.getAllLikes(this.postId);
+    await this.$nextTick();
+   await this.getAllLikes(this.postId);
   },
   data() {
     return {
