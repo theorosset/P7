@@ -1,22 +1,9 @@
 const db = require("../config/db-config");
 
-// const getAllComment = (req, res, next) => {
-//   const sql =
-//     "SELECT comments.id, lastName, post_id, firstName, comments.date, comments.text FROM comments INNER JOIN users ON comments.user = users.id ORDER BY date DESC";
-//   db.execute(sql, (err, result) => {
-//     if (err) {
-//       return res
-//         .status(500)
-//         .json({ message: "aucun commentaire n'est présent" });
-//     } else {
-//       return res.status(200).json(result);
-//     }
-//   });
-// };
-
 const getCommentOfOnePost = (req, res, next) => {
   const postId = req.params.id;
-  const sql = `SELECT post_id, comments.date, comments.text, users.firstName, users.lastName FROM comments INNER JOIN users ON users.id = comments.user WHERE comments.post_id = ${postId} ORDER BY date DESC`;
+
+  const sql = `SELECT c.id, p.id AS postId, u.lastName, u.firstName, c.text, c.post_id FROM comments AS c INNER JOIN users AS u ON c.user = u.id LEFT JOIN posts AS p ON p.id = c.post_id WHERE c.post_id = ${postId} ORDER BY c.date DESC`;
   db.execute(sql, (err, result) => {
     if (err) {
       return res
@@ -128,7 +115,6 @@ const likeComment = (req, res, next) => {
 };
 
 module.exports = {
-  //getAllComment,
   createComment,
   deleteComment,
   likeComment,

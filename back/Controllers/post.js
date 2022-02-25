@@ -11,7 +11,7 @@ const getAllPost = (req, res, next) => {
    *  trier par rapport a la date
    */
   const sql =
-    "SELECT posts.id, lastName, firstName, date, text FROM posts INNER JOIN users ON posts.user = users.id ORDER BY date DESC";
+    "SELECT p.id, u.lastName, u.firstName, p.date, p.text FROM posts AS p INNER JOIN users AS u ON p.user = u.id ORDER BY date DESC";
   db.execute(sql, (err, result) => {
     if (err) {
       return res.status(500).json({ message: " aucun post est  présent" });

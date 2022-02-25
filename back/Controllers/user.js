@@ -75,7 +75,12 @@ const signup = async (req, res, next) => {
   }
 };
 
+const verif = (req, res, next) => {
+  res.status(204).json({ message: "tu peut rester" });
+};
+
 module.exports = {
   login,
   signup,
+  verif,
 };
