@@ -55,7 +55,7 @@ const createPost = (req, res, next) => {
  */
 const deletePost = (req, res, next) => {
   //requête sql pour selection le post a supprimer
-  //utiliser count
+
   const sqlSelect = "SELECT * From posts WHERE `posts`.`id` = ?";
 
   const postDelete = {
