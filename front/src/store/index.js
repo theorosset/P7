@@ -22,6 +22,11 @@ function getComments(token, postId) {
     },
   });
 }
+function getProfil(token) {
+  return axios.get("http://localhost:3000/api/auth/profil", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
 
 function deletePost(token, postId) {
   return axios
@@ -44,6 +49,7 @@ export default new Vuex.Store({
   state: {
     posts: [],
     comments: [],
+    profil: [],
   },
   getters: {},
   mutations: {
@@ -52,6 +58,9 @@ export default new Vuex.Store({
     },
     SET_COMMENTS(state, comments) {
       state.comments = comments;
+    },
+    SET_PROFIL(state, profil) {
+      state.profil = profil;
     },
 
     DELETE_POSTS(state, postId) {
@@ -64,6 +73,12 @@ export default new Vuex.Store({
       const posts = await getPosts(token);
 
       commit("SET_POSTS", posts.data);
+    },
+    async fetchProfil({ commit }) {
+      const token = getToken();
+      const profil = await getProfil(token);
+
+      commit("SET_PROFIL", profil.data);
     },
 
     async fetchComments({ commit }, postId) {

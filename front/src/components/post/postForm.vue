@@ -116,6 +116,7 @@ export default {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  z-index: 1;
 }
 
 .picture{

@@ -2,6 +2,9 @@
 
     <header class="headeur">
         <img class="logoWhite" src="@/assets/icon-left-font-monochrome-white.png" alt="logo de l'entreprise" />
+        <profilBtn />
+        
+        
     </header>
 
 </template>
@@ -9,10 +12,16 @@
 
 <script>
 
+import profilBtn from '../profil/profilUserBtn.vue'
 
 
 export default{
     name:'headerGroupomania',
+
+    components:{
+      profilBtn,
+     
+    }
 }
 
 </script>
