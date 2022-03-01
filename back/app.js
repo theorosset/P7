@@ -2,6 +2,7 @@ const express = require("express");
 const userRoute = require("./Routes/User");
 const postRoute = require("./Routes/Post");
 const commentRoute = require("./Routes/Comment");
+const path = require("path");
 const app = express();
 app.use(express.json());
 
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/auth", userRoute);
 app.use("/api/groupomania/post", postRoute);
 app.use("/api/groupomania/comment", commentRoute);

@@ -1,3 +1,4 @@
+const fs = require("fs");
 const db = require("../config/db-config");
 
 /**
@@ -11,7 +12,7 @@ const getAllPost = (req, res, next) => {
    *  trier par rapport a la date
    */
   const sql =
-    "SELECT p.id, u.lastName, u.firstName, p.date, p.text FROM posts AS p INNER JOIN users AS u ON p.user = u.id ORDER BY date DESC";
+    "SELECT p.id, u.lastName, u.firstName, p.date, p.text, p.imageUrl FROM posts AS p INNER JOIN users AS u ON p.user = u.id ORDER BY date DESC";
   db.execute(sql, (err, result) => {
     if (err) {
       return res.status(500).json({ message: " aucun post est  présent" });
@@ -30,22 +31,31 @@ const createPost = (req, res, next) => {
   // requête sql
   const sql = "INSERT INTO posts SET ?";
   // information a ajouter dans la BDD
-  const post = {
-    ...req.body,
-    user: userId,
-  };
-
+  const post = req.file
+    ? {
+        user: userId,
+        text: req.body.text,
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      }
+    : {
+        ...req.body,
+        user: userId,
+      };
+  console.log(post);
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
-    if (req.body.text === "") {
+    if (req.body.text === "" && req.file === null) {
       return res.status(400).json({
         message: "Votre status est vide écrivez d'abord quelque chose",
       });
-    }
-    if (err) {
-      return res.status(400).json(err);
     } else {
-      return res.status(200).json({ message: "post créer avec succes" });
+      if (err) {
+        return res.status(400).json(err);
+      } else {
+        return res.status(200).json({ message: "post créer avec succes" });
+      }
     }
   });
 };
@@ -64,21 +74,21 @@ const deletePost = (req, res, next) => {
   //récuperation du post a supprimer
   db.query(sqlSelect, postDelete.id, (err, results) => {
     console.log(results);
-
     //si l'id du post est differant de celui du créateur
     if (results[0].user !== req.auth.userId) {
       return res.status(403).json({ message: "ceci n'est pas votre status" });
     } else {
       //requête sql pour supprimer le post
       const sqlDelete = "DELETE FROM posts WHERE `posts`.`id` = ?";
-
+      const filename = results[0].imageUrl.split("/images/")[1];
       //suppression du post
       db.query(sqlDelete, postDelete.id, (err, results) => {
-        console.log(results);
         if (err) {
           return res.status(500).json(err);
         } else {
-          return res.status(200).json({ message: "status supprimer" });
+          fs.unlink(`images/${filename}`, () => {
+            return res.status(200).json({ message: "status supprimer" });
+          });
         }
       });
     }
