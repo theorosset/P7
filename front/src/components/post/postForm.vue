@@ -15,7 +15,7 @@
 
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import axios from "axios";
 import pictureUser from "../indexPage/pictureUser.vue"
 
@@ -75,7 +75,6 @@ export default {
     },
     filePick(event){
       this.files = event.target.files[0]
-      console.log(this.files);
     }
   
   },

@@ -1,7 +1,8 @@
 <template>
     <div class="commentAndLike">
         <div class="btn">
-            <btnLike  :postId="postId"/>
+            <btnLike :getAllLikes="getAllLikes" :postId="postId"/>
+             <p :postId="postId" class="numberLike">{{likes}}</p>
             <i id="commentIcon" @click.stop="openComment(postId)" :revele="revele"  class="fas fa-comment"></i>
         </div>
         <commentList  :postId="postId" v-if="revele == true" />
@@ -11,41 +12,66 @@
 
 
 <script>
+import axios from 'axios'
+
 import { mapActions } from 'vuex'
 import commentList from "../comment/commentList.vue"
 import btnLike from './postBtnLike.vue'
 
 
 export default {
-    name: 'btnComment',
-    props:{
-        postId:{
-            type: Number,
-            required:true
-        },
+  name: "btnComment",
+  props: {
+    postId: {
+      type: Number,
+      required: true,
     },
-    data(){
-        return{
-        revele: false,
-    }
-    },
-   async mounted(){
-        await this.$nextTick();
-        await this.fetchComments(this.postId)
-    },
-    components:{
-        commentList,
-        btnLike,
+  },
 
-    },
-    methods:{
-        ...mapActions(["fetchComments"]),
+  data() {
+    return {
+      likes: 0,
+      revele: false,
+    };
+  },
 
-        openComment() {
-      this.revele = !this.revele
+  async mounted() {
+    await this.$nextTick();
+    await this.fetchComments(this.postId);
+    await this.getAllLikes(this.postId);
+  },
+  components: {
+    commentList,
+    btnLike,
+  },
+  methods: {
+    ...mapActions(["fetchComments"]),
+
+    getAllLikes(postId) {
+      const token = localStorage.getItem("token");
+       axios
+        .get(
+          `http://localhost:3000/api/groupomania/post/like/count/${postId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+         return  this.likes = res.data[0].likeTotal;
+        });
     },
-    }
-}
+ 
+
+    openComment() {
+      this.revele = !this.revele;
+    },
+  },
+};
+
 </script>
 
 <style scoped>

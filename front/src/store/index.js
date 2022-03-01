@@ -56,9 +56,11 @@ export default new Vuex.Store({
     SET_POSTS(state, posts) {
       state.posts = posts;
     },
+
     SET_COMMENTS(state, comments) {
       state.comments = comments;
     },
+
     SET_PROFIL(state, profil) {
       state.profil = profil;
     },

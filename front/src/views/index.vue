@@ -2,7 +2,7 @@
 <div class="Groupomania" >
        <headerGroupomania />
        <postForm />
-       <postList :posts="posts" />
+       <postList  :posts="posts" />
 </div>
 
 </template>

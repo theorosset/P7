@@ -1,5 +1,5 @@
 <template>
-        <i id="likeIcon" @click="likePost(postId)" v-if="isActive === false" :postId="postId" class="far fa-thumbs-up"></i>
+        <i id="likeIcon" @click="likePost(postId)"  v-if="isActive === false" :postId="postId" class="far fa-thumbs-up"></i>
         <i id="likeIcon" @click="likePost(postId)" v-else :postId="postId" class="fas fa-thumbs-up"></i>
 </template>
 
@@ -10,6 +10,7 @@ import axios from 'axios'
 export default {
   name: "btnlike",
   props: {
+    getAllLikes:{type:Function},
     postId: {
       type: Number,
       required: true,
@@ -18,7 +19,8 @@ export default {
   components: {},
   async mounted() {
     await this.$nextTick();
-   await this.getAllLikes(this.postId);
+   await this.getUserLikes(this.postId);
+   
   },
   data() {
     return {
@@ -43,10 +45,10 @@ export default {
           }
         )
         .then(() => {
-          this.getAllLikes(postId);
+          this.getUserLikes(postId);
         });
     },
-    getAllLikes(postId) {
+    getUserLikes(postId) {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
 
@@ -63,8 +65,10 @@ export default {
             return user == userId;
           });
           if (userHaveLike) {
+            this.getAllLikes(postId)
             this.isActive = true;
           } else {
+            this.getAllLikes(postId)
             this.isActive = false;
           }
         });

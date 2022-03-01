@@ -25,10 +25,11 @@
 
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import pictureUser from '../indexPage/pictureUser.vue'
 import commentForm from '../comment/commentForm.vue'
 import btnComment from "./postBtnComment.vue"
+
 
 export default {
   name: "posts",
@@ -38,7 +39,8 @@ export default {
       type: Array, default: () => ([]) 
     }
   },
-
+  
+   
   data() {
     return {
       form: {
@@ -50,10 +52,11 @@ export default {
     pictureUser,
     btnComment,
     commentForm,
+
   },
 
   methods: {
-    ...mapActions(['deletePost'])
+    ...mapActions(['deletePost']),
   },
 };
 
