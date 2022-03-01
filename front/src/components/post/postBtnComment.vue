@@ -55,7 +55,7 @@ export default {
     justify-content: space-around;
     align-items: baseline;
     margin-bottom: 15px;
-    margin-top: 17px;
+    margin-top: 20px;
     margin-left: 15px;
     margin-right: 15px;
 }

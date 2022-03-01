@@ -9,8 +9,11 @@
           <h3 class="firstName">{{post.firstName}}</h3>
           <h3 class="lastName">{{ post.lastName }}</h3>
         </div>
-        <div class="postText">
+        <div v-if="post.text" class="postText">
           <p class="postOfPersonne">{{post.text}}</p>
+        </div>
+        <div v-if="post.imageUrl" class="image">
+          <img  class="postImage" :src="post.imageUrl" >
         </div>
         <btnComment :postId="post.id"/>
         <commentForm  :postId="post.id" />
@@ -131,4 +134,15 @@ li{
     cursor: pointer;
 }
 
+/*image */
+.image{
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  
+}
+.postImage{
+  max-width: 450px;
+  max-height: 500px;
+}
 </style>

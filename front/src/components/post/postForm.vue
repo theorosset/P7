@@ -4,7 +4,10 @@
          <pictureUser class="picture" />
             <form class="formPost" @submit.prevent="createPost()">
                 <textarea v-model="form.text" class="createPost" type="text"  spellcheck="false" placeholder="Quelque chose a raconter ?"></textarea>
-                <input class="submitPost" type="submit" value="Publier">
+                <div class="addPicture">
+                  <input @change="filePick" ref="file" type="file" id="file" accept="image/png, image/jpeg, image/jpg">
+                  <input class="submitPost" type="submit" value="Publier">
+                </div>
             </form>
         </div>
     </section>
@@ -20,6 +23,7 @@ export default {
   name: "postForm",
   data() {
     return {
+      files: null,
       form: {
         text: "",
       },
@@ -41,17 +45,25 @@ export default {
        * body: envoie des information qu'attend le backend
        * headers: envoie du token pour verification de validité
        */
+     const formData = new FormData()
+
+     if(this.form.text !== ""){
+       formData.append('text',this.form.text)
+     }
+     if(this.files !== null){
+       formData.append('image', this.files)
+     }
+
+
       axios
         .post(
           "http://localhost:3000/api/groupomania/post",
-          {
-            text: this.form.text,
-          },
+            formData,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
             },
           }
         )
@@ -59,8 +71,12 @@ export default {
         .then(() => {
           this.fetchPosts()
         })
-        .catch(() => alert(`Votre status n'a pas pus être créer`));
+        .catch(() => { alert("Votre status est vide, remplissez le ")});
     },
+    filePick(event){
+      this.files = event.target.files[0]
+      console.log(this.files);
+    }
   
   },
 };
@@ -75,7 +91,7 @@ export default {
   margin-top: 30px;
 }
 .post {
-  height: 100px;
+  height: 150px;
   display: flex;
   width: 500px;
   border: 1px solid rgba(10, 132, 255, 1);
@@ -101,10 +117,12 @@ export default {
   box-shadow: none;
   resize: none;
 }
-.formPost {
+
+.addPicture{
   display: flex;
-  align-items: center;
+  margin-top: 15px;
 }
+
 .submitPost {
   display: flex;
   position: relative;
@@ -117,10 +135,13 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   z-index: 1;
+  
 }
 
 .picture{
   padding: 0.7rem;
   font-size: 30px;
 }
+
+
 </style>
