@@ -147,8 +147,10 @@ const allUserLikePost = (req, res, next) => {
 };
 
 const allLikePost = (req, res, next) => {
+  const postId = req.params.id;
+
   //requête sql pour compter le nombres de like relatif a un post
-  const sqlCount = `SELECT COUNT(likes.post_id) FROM likes WHERE likes.post_id = ${postId}`;
+  const sqlCount = `SELECT COUNT(likes.post_id) AS likeTotal FROM likes WHERE likes.post_id = ${postId}`;
 
   db.query(sqlCount, (err, results) => {
     if (err) {
