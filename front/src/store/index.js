@@ -13,15 +13,6 @@ function getPosts(token) {
   });
 }
 
-function getComments(token, postId) {
-  return axios.get(`http://localhost:3000/api/groupomania/comment/${postId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-}
 function getProfil(token) {
   return axios.get("http://localhost:3000/api/auth/profil", {
     headers: { Authorization: `Bearer ${token}` },
@@ -48,17 +39,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     posts: [],
-    comments: [],
+
     profil: [],
   },
   getters: {},
   mutations: {
     SET_POSTS(state, posts) {
       state.posts = posts;
-    },
-
-    SET_COMMENTS(state, comments) {
-      state.comments = comments;
     },
 
     SET_PROFIL(state, profil) {
@@ -81,13 +68,6 @@ export default new Vuex.Store({
       const profil = await getProfil(token);
 
       commit("SET_PROFIL", profil.data);
-    },
-
-    async fetchComments({ commit }, postId) {
-      const token = getToken();
-      const comments = await getComments(token, postId);
-
-      commit("SET_COMMENTS", comments.data);
     },
 
     async deletePost({ commit }, postId) {
