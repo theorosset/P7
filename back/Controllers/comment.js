@@ -3,7 +3,7 @@ const db = require("../config/db-config");
 const getCommentOfOnePost = (req, res, next) => {
   const postId = req.params.id;
 
-  const sql = `SELECT c.id, p.id AS postId, u.lastName, u.firstName, c.text, c.post_id FROM comments AS c INNER JOIN users AS u ON c.user = u.id LEFT JOIN posts AS p ON p.id = c.post_id WHERE c.post_id = ${postId} ORDER BY c.date DESC`;
+  const sql = `SELECT c.id, p.id AS postId, u.lastName, u.firstName, c.text, c.post_id FROM comments AS c INNER JOIN users AS u ON c.user = u.id LEFT JOIN posts AS p ON p.id = c.post_id WHERE c.post_id = ${postId} ORDER BY c.date`;
   db.execute(sql, (err, result) => {
     if (err) {
       return res
