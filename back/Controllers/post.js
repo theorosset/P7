@@ -80,17 +80,30 @@ const deletePost = (req, res, next) => {
     } else {
       //requête sql pour supprimer le post
       const sqlDelete = "DELETE FROM posts WHERE `posts`.`id` = ?";
-      const filename = results[0].imageUrl.split("/images/")[1];
-      //suppression du post
-      db.query(sqlDelete, postDelete.id, (err, results) => {
-        if (err) {
-          return res.status(500).json(err);
-        } else {
-          fs.unlink(`images/${filename}`, () => {
+
+      //si il y a une image alors on supprime l'image du serveur
+      if (results[0].imageUrl != null) {
+        const filename = results[0].imageUrl.split("/images/")[1];
+        db.query(sqlDelete, postDelete.id, (err, results) => {
+          if (err) {
+            return res.status(500).json(err);
+          } else {
+            fs.unlink(`images/${filename}`, () => {
+              return res.status(200).json({ message: "status supprimer" });
+            });
+          }
+        });
+      }
+      //sinon  on supprime juste le status
+      else {
+        db.query(sqlDelete, postDelete.id, (err, results) => {
+          if (err) {
+            return res.status(500).json(err);
+          } else {
             return res.status(200).json({ message: "status supprimer" });
-          });
-        }
-      });
+          }
+        });
+      }
     }
   });
 };
