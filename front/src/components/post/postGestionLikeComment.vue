@@ -1,8 +1,10 @@
 <template>
     <div class="commentAndLike">
         <div class="btn">
+          <div class="likes">
             <btnLike :getAllLikes="getAllLikes" :postId="postId"/>
              <p :postId="postId" class="numberLike">{{likes}}</p>
+          </div>
             <i id="commentIcon" @click.stop="openComment(postId)" :revele="revele"  class="fas fa-comment"></i>
         </div>
         <commentList  :postId="postId" v-if="revele == true" />
@@ -13,14 +15,12 @@
 
 <script>
 import axios from 'axios'
-
-import { mapActions } from 'vuex'
 import commentList from "../comment/commentList.vue"
 import btnLike from './postBtnLike.vue'
 
 
 export default {
-  name: "btnComment",
+  name: "gestionCommentLike",
   props: {
     postId: {
       type: Number,
@@ -37,7 +37,6 @@ export default {
 
   async mounted() {
     await this.$nextTick();
-    await this.fetchComments(this.postId);
     await this.getAllLikes(this.postId);
   },
   components: {
@@ -45,11 +44,9 @@ export default {
     btnLike,
   },
   methods: {
-    ...mapActions(["fetchComments"]),
-
     getAllLikes(postId) {
       const token = localStorage.getItem("token");
-       axios
+      axios
         .get(
           `http://localhost:3000/api/groupomania/post/like/count/${postId}`,
           {
@@ -61,10 +58,9 @@ export default {
           }
         )
         .then((res) => {
-         return  this.likes = res.data[0].likeTotal;
+          return (this.likes = res.data[0].likeTotal);
         });
     },
- 
 
     openComment() {
       this.revele = !this.revele;
@@ -91,5 +87,14 @@ export default {
     font-size: 25px;
 }
 
+.likes{
+  display: flex;
+  align-items: baseline;
+}
+.numberLike{
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 8px;
+}
 
 </style>

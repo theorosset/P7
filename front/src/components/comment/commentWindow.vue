@@ -1,7 +1,7 @@
 <template>
   <div class="commentWindow" >
     <p  class="noComment" v-if="comments.length == 0">Il n'y a aucun commentaire actuellement ecrivez en un </p>
-    <li v-else class="containerComment"  v-for="comment in comments"  :key="comment.id" > 
+    <li  v-else class="containerComment"  v-for="comment in comments" :key="comment.id" >
       <div class="user">
         <pictureUser  class="picture"/>
         <div class="commentUserText">
@@ -19,14 +19,14 @@
 
 
 <script>
-
-import pictureUser from '../indexPage/pictureUser.vue'
+import pictureUser from "../indexPage/pictureUser.vue";
 
 export default {
   name: "commentWindow",
   props: {
-    comments:{
-      type: Array, default: () => ([]) 
+    comments: {
+      type: Array,
+      default: () => [],
     },
     postId: {
       type: Number,
@@ -37,15 +37,18 @@ export default {
   components: {
     pictureUser,
   },
-
-  methods:{
-  }
 };
-
 </script>
 
 
 <style scoped>
+
+.containerComment{
+  border-top: 1px solid black;
+  width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .picture{
   font-size: 16px;
@@ -56,16 +59,15 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 15px;
+  margin-top: 18px;
+  margin-bottom: 18px;
 }
 
 .text{
   margin: 0px;
 }
 
-.noComment{
-  margin-left: 57px;
-}
+
 
 .name{
   display: flex;

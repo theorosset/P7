@@ -6,11 +6,10 @@
 <script>
 import axios from 'axios'
 
-
 export default {
   name: "btnlike",
   props: {
-    getAllLikes:{type:Function},
+    getAllLikes: { type: Function },
     postId: {
       type: Number,
       required: true,
@@ -19,8 +18,7 @@ export default {
   components: {},
   async mounted() {
     await this.$nextTick();
-   await this.getUserLikes(this.postId);
-   
+    await this.getUserLikes(this.postId);
   },
   data() {
     return {
@@ -32,7 +30,9 @@ export default {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
 
-      axios.post(`http://localhost:3000/api/groupomania/post/like/${postId}`,
+      axios
+        .post(
+          `http://localhost:3000/api/groupomania/post/like/${postId}`,
           {
             user: userId,
           },
@@ -52,8 +52,8 @@ export default {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
 
-      axios.get(`http://localhost:3000/api/groupomania/post/like/${postId}`,
-        {
+      axios
+        .get(`http://localhost:3000/api/groupomania/post/like/${postId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -65,17 +65,16 @@ export default {
             return user == userId;
           });
           if (userHaveLike) {
-            this.getAllLikes(postId)
+            this.getAllLikes(postId);
             this.isActive = true;
           } else {
-            this.getAllLikes(postId)
+            this.getAllLikes(postId);
             this.isActive = false;
           }
         });
     },
   },
 };
-
 </script>
 
 

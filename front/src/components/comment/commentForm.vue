@@ -13,7 +13,6 @@
 
 <script>
 import axios from 'axios';
-import {mapActions} from 'vuex'
 
 export default {
   data() {
@@ -24,6 +23,9 @@ export default {
     };
   },
   props: {
+    getComments: {
+      type: Function,
+    },
     postId: {
       type: Number,
       required: true,
@@ -31,7 +33,6 @@ export default {
   },
 
   methods: {
-    ...mapActions(['fetchComments']),
     /**
      * création d'un commentaire
      */
@@ -59,14 +60,12 @@ export default {
         )
         //une fois le post créer on récupêre tout les post
         .then(() => {
-          this.fetchComments(this.postId);
+          this.getComments(this.postId);
         })
         .catch(() => alert(`Votre status n'a pas pus être créer`));
     },
-    
   },
 };
-
 
 </script>
 

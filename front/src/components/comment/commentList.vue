@@ -3,12 +3,15 @@
     <ul class="positionCommentData">
         <commentWindow :comments="comments" :postId="postId"/>
     </ul>
+    <commentForm :getComments="getComments" :postId="postId" />
 </div>
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
-import commentWindow from "./commentWindow.vue"
+import axios from "axios";
+
+import commentWindow from "./commentWindow.vue";
+import commentForm from "../comment/commentForm.vue";
 
 export default {
   name: "commentList",
@@ -18,20 +21,36 @@ export default {
       required: true,
     },
   },
-   async mounted(){
-    await this.$nextTick();
-    await this.fetchComments(this.postId)
+  data() {
+    return {
+      comments: [],
+    };
   },
-  computed:{
-    ...mapState(['comments'])
+  async mounted() {
+    await this.$nextTick();
+    await this.getComments(this.postId);
   },
 
   components: {
     commentWindow,
-  }, 
+    commentForm,
+  },
 
   methods: {
-    ...mapActions(['fetchComments'])
+    getComments(postId) {
+      const token = localStorage.getItem("token");
+      axios
+        .get(`http://localhost:3000/api/groupomania/comment/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          this.comments = res.data;
+        });
+    },
   },
 };
 
@@ -43,10 +62,6 @@ export default {
     list-style: none;
     padding: 0px;
     display: flex;
-    border-top: 1px solid black;
-    width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-    
+    justify-content: center;
 }
 </style>
