@@ -61,6 +61,7 @@ export default {
         //une fois le post créer on récupêre tout les post
         .then(() => {
           this.getComments(this.postId);
+          document.querySelector('.createComment').value="";
         })
         .catch(() => alert(`Votre status n'a pas pus être créer`));
     },
@@ -82,6 +83,8 @@ export default {
 .createComment{
     width: 300px;
     height: 25px;
+    font-family: sans-serif;
+    font-size: 14px;
 }
 
 .submitComment{

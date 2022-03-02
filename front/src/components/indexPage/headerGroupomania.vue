@@ -39,6 +39,7 @@ header{ margin: 0px;}
 }
 
 .logoWhite {
+  margin-left: 59px;
   display: flex;
   position: relative;
   width: 150px;

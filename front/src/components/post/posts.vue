@@ -2,32 +2,32 @@
     <div class="posts">
       <li class="postData"  v-for="post in posts" :postId="post.id" :key="post.id" >
         <div class="delet">
-          <i id="deletBtn" @click="deletePost(post.id)" class="fas fa-trash"></i>
+          <btnDelet :postUser="post.user" :postId='post.id' />
         </div>
         <div class="namePost">
           <pictureUser class="picture"/>
           <h3 class="firstName">{{post.firstName}}</h3>
           <h3 class="lastName">{{ post.lastName }}</h3>
         </div>
+        <p class="date">{{getDate(post.date)}}</p>
         <div v-if="post.text" class="postText">
-          <p class="postOfPersonne">{{post.text}}</p>
+          <p  class="postOfPersonne">{{post.text}}</p>
         </div>
         <div v-if="post.imageUrl" class="image">
           <img  class="postImage" :src="post.imageUrl" >
         </div>
         <gestionCommentLike :postId="post.id"/>
-        
       </li>
-     
     </div>
 </template>
 
 
 
 <script>
-import { mapActions } from 'vuex'
+
 import pictureUser from '../indexPage/pictureUser.vue'
 import gestionCommentLike from "./postGestionLikeComment.vue"
+import btnDelet from "./postBtnDelete.vue"
 
 export default {
   name: "posts",
@@ -49,10 +49,15 @@ export default {
   components: {
     pictureUser,
     gestionCommentLike,
+    btnDelet
   },
 
   methods: {
-    ...mapActions(["deletePost"]),
+    getDate(date_h){
+     const date = date_h.split("T")[0];
+     const dateReverse = date.split("-")
+     return dateReverse.reverse().join("-")
+    }
   },
 };
 
@@ -120,7 +125,14 @@ li{
   background-color: white;
 }
 
-/*bouton delet*/
+.date{
+  margin: 0px;
+  display: flex;
+  position: relative;
+  bottom: 30px;
+  left: 82px;
+}
+/* div delete */
 .delet{
   display: flex;
   align-items: baseline;
@@ -128,9 +140,6 @@ li{
   margin-right: 5px;
   margin-top: 5px;
   font-size: 13px;
-}
-#deletBtn:hover{
-    cursor: pointer;
 }
 
 /*image */
@@ -143,5 +152,31 @@ li{
 .postImage{
   max-width: 450px;
   max-height: 500px;
+}
+/*responsive */
+@media screen and (max-width: 500px){
+  .postData{
+    border-radius: 0px;
+    border-right: none;
+    border-left: none;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  .postOfPersonne{
+    width: 60%;
+    margin-top: 5px;
+  }
+  .picture{
+    font-size: 20px;
+    padding: 0.5rem;
+  }
+  .postImage{
+    width: 100%;
+    max-height: 350px;
+  }
+  .date{
+    bottom: 18px;
+    left: 68px;
+  }
 }
 </style>

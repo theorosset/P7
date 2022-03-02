@@ -139,6 +139,22 @@ export default {
   padding: 0.7rem;
   font-size: 30px;
 }
+/* responsive*/
+@media screen and (max-width: 500px){
+  .post{  width: 100%;
+  box-sizing: border-box;
+  border-right: none;
+  border-left: none;
+  border-radius: 0px;}
+  }
+@media screen and (max-width: 420px){
+  .picture{
+    display: none;
+  }
 
+  .post{ 
+    justify-content: center;
+  }
 
+}
 </style>

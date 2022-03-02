@@ -55,7 +55,7 @@ export default {
   border-radius: 20px;
   height: 30px;
   position: relative;
-  left: 138px;
+  left: 110px;
   cursor: pointer;
 }
 
@@ -67,5 +67,11 @@ export default {
   margin-left: 6px;
 }
 
+/* responsive */
+@media screen and (max-width: 500px){
+  .profil{
+    left: 38px;
+  }
+}
 
 </style>

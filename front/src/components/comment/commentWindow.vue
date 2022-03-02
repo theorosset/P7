@@ -87,5 +87,14 @@ export default {
 .lastName{
   margin-left: 5px;
 }
-
+/*responsive*/
+@media screen and (max-width: 500px){
+  .commentWindow{
+    width: 100%;
+  }
+  .noComment{
+    display: flex;
+    justify-content: center;
+  }
+}
 </style>
