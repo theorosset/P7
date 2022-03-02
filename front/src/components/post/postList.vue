@@ -11,15 +11,13 @@
 import posts from "./posts.vue";
 
 export default {
-   name: "postList", 
-      props: {
-     posts: { type: Array, default: () => ([]) },
-   },
+  name: "postList",
+  props: {
+    posts: { type: Array, default: () => [] },
+  },
   components: {
     posts,
   },
- 
- 
 };
 
 </script>

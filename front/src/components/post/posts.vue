@@ -15,8 +15,8 @@
         <div v-if="post.imageUrl" class="image">
           <img  class="postImage" :src="post.imageUrl" >
         </div>
-        <btnComment :postId="post.id"/>
-        <commentForm  :postId="post.id" />
+        <gestionCommentLike :postId="post.id"/>
+        
       </li>
      
     </div>
@@ -27,20 +27,18 @@
 <script>
 import { mapActions } from 'vuex'
 import pictureUser from '../indexPage/pictureUser.vue'
-import commentForm from '../comment/commentForm.vue'
-import btnComment from "./postBtnComment.vue"
-
+import gestionCommentLike from "./postGestionLikeComment.vue"
 
 export default {
   name: "posts",
 
   props: {
-    posts:{
-      type: Array, default: () => ([]) 
-    }
+    posts: {
+      type: Array,
+      default: () => [],
+    },
   },
-  
-   
+
   data() {
     return {
       form: {
@@ -50,13 +48,11 @@ export default {
   },
   components: {
     pictureUser,
-    btnComment,
-    commentForm,
-
+    gestionCommentLike,
   },
 
   methods: {
-    ...mapActions(['deletePost']),
+    ...mapActions(["deletePost"]),
   },
 };
 

@@ -29,11 +29,11 @@ export default {
       },
     };
   },
-  components:{
-    pictureUser
+  components: {
+    pictureUser,
   },
   methods: {
-   ...mapActions(['fetchPosts']),
+    ...mapActions(["fetchPosts"]),
 
     /**
      * création d'un status
@@ -45,38 +45,36 @@ export default {
        * body: envoie des information qu'attend le backend
        * headers: envoie du token pour verification de validité
        */
-     const formData = new FormData()
+      const formData = new FormData();
 
-     if(this.form.text !== ""){
-       formData.append('text',this.form.text)
-     }
-     if(this.files !== null){
-       formData.append('image', this.files)
-     }
-
+      if (this.form.text !== "") {
+        formData.append("text", this.form.text);
+      }
+      if (this.files !== null) {
+        formData.append("image", this.files);
+      }
 
       axios
-        .post(
-          "http://localhost:3000/api/groupomania/post",
-            formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              Accept: "application/json",
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        )
-        //une fois le post créer on récupêre tout les post 
-        .then(() => {
-          this.fetchPosts()
+        .post("http://localhost:3000/api/groupomania/post", formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data",
+          },
         })
-        .catch(() => { alert("Votre status est vide, remplissez le ")});
+        //une fois le post créer on récupêre tout les post
+        .then(() => {
+          this.fetchPosts();
+          document.querySelector(".createPost").value = "";
+          document.querySelector("#file").value = null;
+        })
+        .catch(() => {
+          alert("Votre status est vide, remplissez le ");
+        });
     },
-    filePick(event){
-      this.files = event.target.files[0]
-    }
-  
+    filePick(event) {
+      this.files = event.target.files[0];
+    },
   },
 };
 
