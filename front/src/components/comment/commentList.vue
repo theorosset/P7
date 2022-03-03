@@ -1,7 +1,7 @@
 <template>
 <div class="CommentList" >
     <ul class="positionCommentData">
-        <commentWindow :comments="comments" :postId="postId"/>
+        <commentWindow :getComments="getComments" :comments="comments" :postId="postId"/>
     </ul>
     <commentForm :getComments="getComments" :postId="postId" />
 </div>

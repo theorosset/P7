@@ -6,7 +6,6 @@
             <div class="title">
                 <h1 class="titleModale">Mon profil</h1>
             </div>
-                
                 <userInfo :profil="profil"/>   
             </div>
         </div>

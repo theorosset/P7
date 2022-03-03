@@ -8,6 +8,7 @@
           <div class="name">
             <h4 class="firstName">{{comment.firstName}}</h4>
             <h4 class="lastName">{{ comment.lastName }}</h4>
+            <btnDelet :getComments="getComments" :postId="postId" :commentUser="comment.user" :commentId="comment.id"/>
           </div>
           <p class="text" >{{comment.text}}</p>
         </div>
@@ -20,10 +21,14 @@
 
 <script>
 import pictureUser from "../indexPage/pictureUser.vue";
+import btnDelet from './commentBtnDelet.vue'
 
 export default {
   name: "commentWindow",
   props: {
+     getComments: {
+      type: Function,
+    },
     comments: {
       type: Array,
       default: () => [],
@@ -36,6 +41,7 @@ export default {
 
   components: {
     pictureUser,
+    btnDelet
   },
 };
 </script>
@@ -67,8 +73,6 @@ export default {
   margin: 0px;
 }
 
-
-
 .name{
   display: flex;
 }
@@ -77,6 +81,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin-left: 15px;
+  flex-grow: 1;
 }
 
 .firstName, .lastName{
@@ -86,6 +91,7 @@ export default {
 }
 .lastName{
   margin-left: 5px;
+  flex-grow: 1;
 }
 /*responsive*/
 @media screen and (max-width: 500px){
