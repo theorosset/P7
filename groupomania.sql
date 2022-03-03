@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 24 fév. 2022 à 17:49
+-- Généré le : jeu. 03 mars 2022 à 09:48
 -- Version du serveur : 8.0.28
 -- Version de PHP : 8.1.2
 
@@ -31,7 +31,7 @@ CREATE TABLE `comments` (
   `id` mediumint NOT NULL,
   `user` int NOT NULL,
   `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` datetime NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `post_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -40,14 +40,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `user`, `text`, `date`, `post_id`) VALUES
-(29, 30, 'oui', '2022-02-24 17:17:11', 190),
-(30, 30, 'ok', '2022-02-24 17:18:43', 191),
-(31, 30, 'oui', '2022-02-24 17:29:18', 190),
-(32, 30, 'ok', '2022-02-24 17:41:45', 189),
-(33, 30, 'ok', '2022-02-24 17:45:38', 189),
-(34, 30, 'oui', '2022-02-24 17:52:23', 191),
-(35, 30, 'oui', '2022-02-24 18:04:39', 191),
-(36, 30, 'f', '2022-02-24 18:05:42', 191);
+(77, 37, 'génial ton image ;p', '2022-03-03 10:36:26', 270),
+(78, 38, 'haha j\'adore', '2022-03-03 10:38:23', 270);
 
 -- --------------------------------------------------------
 
@@ -58,9 +52,18 @@ INSERT INTO `comments` (`id`, `user`, `text`, `date`, `post_id`) VALUES
 CREATE TABLE `likes` (
   `id` int NOT NULL,
   `user` int NOT NULL,
-  `post_id` mediumint DEFAULT NULL,
-  `comment_id` mediumint DEFAULT NULL
+  `post_id` mediumint DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `likes`
+--
+
+INSERT INTO `likes` (`id`, `user`, `post_id`) VALUES
+(280, 37, 269),
+(281, 34, 270),
+(282, 37, 270),
+(283, 38, 270);
 
 -- --------------------------------------------------------
 
@@ -70,19 +73,19 @@ CREATE TABLE `likes` (
 
 CREATE TABLE `posts` (
   `id` mediumint NOT NULL,
-  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `user` mediumint NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `imageUrl` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `posts`
 --
 
-INSERT INTO `posts` (`id`, `text`, `user`, `date`) VALUES
-(189, 'oke\n', 30, '2022-02-24 14:12:03'),
-(191, 'ok', 30, '2022-02-24 16:21:23'),
-(194, 'oui', 30, '2022-02-24 18:44:52');
+INSERT INTO `posts` (`id`, `text`, `user`, `date`, `imageUrl`) VALUES
+(269, 'Bonjour Groupomania', 37, '2022-03-03 10:33:08', 'http://localhost:3000/images/icon-above-font.png1646299988663.png'),
+(270, 'enfin un réseau social pour notre équipe', 34, '2022-03-03 10:35:21', 'http://localhost:3000/images/OIP.jpg1646300121956.jpg');
 
 -- --------------------------------------------------------
 
@@ -103,9 +106,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `lastName`, `firstname`, `email`, `password`) VALUES
-(29, 'attend jeanjack', 'jackob', 'jeanjack@jackob.fr', '$2b$10$a.V.MShpvoHoPayJUeG/3eil5YiAiG4Gy3UgVuhgZvKKdyPgzm7P2'),
-(30, 'rosset', 'theo', 'theo.rosset@outlook.fr', '$2b$10$V/CTdo50WUJ/ClBCJXMhROtnqamOhNn4gl/QGJB.1Hxd2G7L.md1S'),
-(31, 'fail', 'Theo', 'theo.fail@outlook.fr', '$2b$10$v5hRGoHYEUIq.L4cper8G.N2dVUwqekWVN8j3GDgNaBX1pSZSLQs.');
+(34, 'Rosset', 'Theo', 'theo.rosset@outlook.fr', '$2b$10$gfBSs87BoPlHqjwGqFfMm.EeCAYGiwtoAqxvAHEiRW.bHKLqlPiIa'),
+(37, 'Pallandin', 'Jordan', 'jordan.pallandin@outlook.fr', '$2b$10$wQq7nrJLvrs6sngO9Ot4necvAkYge9ETKC0B5gNWZbFhUQLt/V5yO'),
+(38, 'Lepalm', 'Bertrand', 'bertrand.lepalm@outlook.fr', '$2b$10$eWnI9njDi6g0U9sHmN75HewgDcJZSZ7MlNij6L4vZMis3c06uzVdW');
 
 --
 -- Index pour les tables déchargées
@@ -144,25 +147,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT pour la table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=284;
 
 --
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
