@@ -1,7 +1,5 @@
 <template>
-    
-          <i v-if="revele == true" id="deletBtn" @click="deletePost(postId)" class="fas fa-trash"></i>
-    
+    <i v-if="revele == true" id="deletBtn" @click="deletePost(postId)" class="fas fa-trash"></i>
 </template>
 
 <script>
