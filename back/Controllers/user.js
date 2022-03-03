@@ -79,6 +79,10 @@ const signup = async (req, res, next) => {
   }
 };
 
+/**
+ * end point juste pour vérifier si la personne contien un token valide dans le localstorage
+ *
+ */
 const verif = (req, res, next) => {
   res.status(204).json({ message: "tu peut rester" });
 };
