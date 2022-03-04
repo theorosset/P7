@@ -122,7 +122,7 @@ li{
   border-radius: 5px;
   width: 300px;
   margin-bottom: 0px;
-  background-color: white;
+  background-color: #f1f1f1;
 }
 
 .date{
