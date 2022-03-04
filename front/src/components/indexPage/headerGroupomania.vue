@@ -35,7 +35,7 @@ header{ margin: 0px;}
   align-items: center;
   justify-content: center;
   height: 50px;
-  background-color: rgba(255, 110, 110, 1);
+  background-color: #d13d48d4;
 }
 
 .logoWhite {

@@ -95,7 +95,7 @@ export default {
   border-radius: 5px;
   align-items: center;
   justify-content: space-around;
-  background-color: rgb(244, 244, 244);
+  background-color: white;
 }
 
 .border{

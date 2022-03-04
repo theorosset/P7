@@ -24,6 +24,8 @@ const routes = [
             localStorage.clear();
             next("/login");
           });
+      } else {
+        next("/login");
       }
     },
   },

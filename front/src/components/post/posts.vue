@@ -85,7 +85,7 @@ li{
   margin-top: 30px;
   border: 1px solid rgba(10, 132, 255, 1);
   border-radius: 5px;
-  background-color: rgb(244, 244, 244);
+  background-color: white;
 }
 
 .lastName {
@@ -172,7 +172,7 @@ li{
   }
   .postImage{
     width: 100%;
-    max-height: 350px;
+    max-height: 400px;
   }
   .date{
     bottom: 18px;
