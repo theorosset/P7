@@ -43,10 +43,10 @@ const createPost = (req, res, next) => {
         ...req.body,
         user: userId,
       };
-  console.log(post);
+
   //ajout a la base de donner
   db.query(sql, post, (err, results) => {
-    if (req.body.text === "" && req.file === null) {
+    if (!req.body.text && !req.file) {
       return res.status(400).json({
         message: "Votre status est vide écrivez d'abord quelque chose",
       });
