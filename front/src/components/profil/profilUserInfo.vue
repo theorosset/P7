@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="userSettings" v-for="info of profil" :key="info.id">
-            <postPicture  class="picture"/>
+            <div class="layout">
+                <postPicture  class="picture"/> 
+                <layout />
+            </div>
             <div class="info">
                 <h2 class="titleInfo">Prénom : </h2>
                 <p class="user">{{ info.firstName }}</p>
@@ -26,9 +29,10 @@
 <script>
 import profilDelete from './profilDelete.vue'
 import postPicture from '../indexPage/pictureUser.vue'
+import layout from './profilLayout.vue'
 
 export default {
-  components: { profilDelete, postPicture },
+  components: { profilDelete, postPicture, layout },
     name:'userInfo',
     props:{
         profil:{
@@ -63,5 +67,12 @@ export default {
     margin-bottom: 0;
 }
 
+/* layout */
+.layout{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5px;
+}
 
 </style>

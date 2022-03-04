@@ -2,7 +2,7 @@
     <div class="posts">
       <li class="postData"  v-for="post in posts" :postId="post.id" :key="post.id" >
         <div class="delet">
-          <btnDelet :postUser="post.user" :postId='post.id' />
+          <btnDelete :postUser="post.user" :postId='post.id' />
         </div>
         <div class="namePost">
           <pictureUser class="picture"/>
@@ -27,7 +27,7 @@
 
 import pictureUser from '../indexPage/pictureUser.vue'
 import gestionCommentLike from "./postGestionLikeComment.vue"
-import btnDelet from "./postBtnDelete.vue"
+import btnDelete from "./postBtnDelete.vue"
 
 export default {
   name: "posts",
@@ -49,7 +49,7 @@ export default {
   components: {
     pictureUser,
     gestionCommentLike,
-    btnDelet
+    btnDelete
   },
 
   methods: {

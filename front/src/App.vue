@@ -9,7 +9,6 @@
 body{
   font-family: 'sans-serif';
   margin: 0px;
-  background-color:#ebebeb;
+  background-color: #ebebeb;
 }
-
 </style>

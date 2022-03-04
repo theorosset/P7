@@ -7,7 +7,7 @@ import { mapActions } from 'vuex'
 
 
 export default {
-    name: 'btnDelet',
+    name: 'btnDelete',
     data(){
         return{
             revele: false

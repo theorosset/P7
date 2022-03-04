@@ -63,7 +63,7 @@ export default {
           this.getComments(this.postId);
           document.querySelector('.createComment').value="";
         })
-        .catch(() => alert(`Votre status n'a pas pus être créer`));
+        .catch(() => alert(`Votre commentaire n'a pas pus être créer`));
     },
   },
 };
