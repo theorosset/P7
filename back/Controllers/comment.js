@@ -3,7 +3,7 @@ const db = require("../config/db-config");
 const getCommentOfOnePost = (req, res, next) => {
   const postId = req.params.id;
 
-  const sql = `SELECT c.id, c.user, p.id AS postId, u.lastName, u.firstName, c.text, c.post_id FROM comments AS c INNER JOIN users AS u ON c.user = u.id LEFT JOIN posts AS p ON p.id = c.post_id WHERE c.post_id = ${postId} ORDER BY c.date`;
+  const sql = `SELECT c.id, c.user, p.id AS postId, u.lastName, u.firstName, c.text, c.post_id FROM comments AS c INNER JOIN users AS u ON c.user = u.id LEFT JOIN posts AS p ON p.id = c.post_id WHERE c.post_id = ${postId} ORDER BY c.date DESC`;
   db.execute(sql, (err, result) => {
     if (err) {
       return res
@@ -24,15 +24,20 @@ const createComment = (req, res, next) => {
     ...req.body,
     user: userId,
   };
-
-  //ajout a la base de donner
-  db.query(sql, comment, (err, results) => {
-    if (err) {
-      return res.status(400).json(err);
-    } else {
-      return res.status(200).json({ message: "commentaire créer avec succes" });
-    }
-  });
+  if (comment.text == "") {
+    return res.status(400).json({ message: "écrivez d'abord quelque chose" });
+  } else {
+    //ajout a la base de donner
+    db.query(sql, comment, (err, results) => {
+      if (err) {
+        return res.status(400).json(err);
+      } else {
+        return res
+          .status(200)
+          .json({ message: "commentaire créer avec succes" });
+      }
+    });
+  }
 };
 
 const deleteComment = (req, res, next) => {

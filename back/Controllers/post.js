@@ -7,7 +7,7 @@ const db = require("../config/db-config");
 const getAllPost = (req, res, next) => {
   /**
    *  requête sql
-   *  recupération du nom et du prenom de la personne qui a créer le post.
+   *  recupération grace a une jointure du nom et du prenom de la personne qui a créer le post.
    *  recupération de la date de création.
    *  trier par rapport a la date
    */
@@ -73,7 +73,6 @@ const deletePost = (req, res, next) => {
   };
   //récuperation du post a supprimer
   db.query(sqlSelect, postDelete.id, (err, results) => {
-    console.log(results);
     //si l'id du post est differant de celui du créateur
     if (results[0].user !== req.auth.userId) {
       return res.status(403).json({ message: "ceci n'est pas votre status" });
