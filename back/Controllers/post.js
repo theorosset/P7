@@ -45,19 +45,19 @@ const createPost = (req, res, next) => {
       };
 
   //ajout a la base de donner
-  db.query(sql, post, (err, results) => {
-    if (!req.body.text && !req.file) {
-      return res.status(400).json({
-        message: "Votre status est vide écrivez d'abord quelque chose",
-      });
-    } else {
+  if (req.body.text == null && req.file == null) {
+    return res.status(400).json({
+      message: "Votre status est vide écrivez d'abord quelque chose",
+    });
+  } else {
+    db.query(sql, post, (err, results) => {
       if (err) {
         return res.status(400).json(err);
       } else {
         return res.status(200).json({ message: "post créer avec succes" });
       }
-    }
-  });
+    });
+  }
 };
 
 /**
