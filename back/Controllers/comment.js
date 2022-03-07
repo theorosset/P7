@@ -40,7 +40,7 @@ const createComment = (req, res, next) => {
         return res.status(400).json(err);
       } else {
         return res
-          .status(200)
+          .status(201)
           .json({ message: "commentaire créer avec succes" });
       }
     });
@@ -52,7 +52,7 @@ const createComment = (req, res, next) => {
  */
 const deleteComment = (req, res, next) => {
   //requête sql pour selection du commentaire a supprimer
-  //utiliser count
+
   const sqlSelect = "SELECT * From comments WHERE `comments`.`id` = ?";
 
   const commentDelete = {

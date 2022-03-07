@@ -3,6 +3,9 @@ import Vuex from "vuex";
 
 import axios from "axios";
 
+/**
+ * récuperation des posts
+ */
 function getPosts(token) {
   return axios.get("http://localhost:3000/api/groupomania/post", {
     headers: {
@@ -12,13 +15,18 @@ function getPosts(token) {
     },
   });
 }
-
+/**
+ * récuperation des info de la personne connecter
+ */
 function getProfil(token) {
   return axios.get("http://localhost:3000/api/auth/profil", {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
 
+/**
+ * suppression d'un post
+ */
 function deletePost(token, postId) {
   return axios
     .delete(`http://localhost:3000/api/groupomania/post/${postId}`, {
@@ -30,6 +38,9 @@ function deletePost(token, postId) {
     });
 }
 
+/**
+ * récupération du token depuis le localstorage
+ */
 function getToken() {
   return localStorage.getItem("token");
 }

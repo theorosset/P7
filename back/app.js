@@ -5,6 +5,7 @@ const commentRoute = require("./Routes/Comment");
 const path = require("path");
 
 const app = express();
+//recupération des requête qui ont un content-type json
 app.use(express.json());
 
 /**
@@ -16,8 +17,6 @@ app.use((req, res, next) => {
   req.db = db;
   next();
 });
-
-//recupération des requête qui ont un content-type json
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

@@ -54,7 +54,7 @@ const createPost = (req, res, next) => {
       if (err) {
         return res.status(400).json(err);
       } else {
-        return res.status(200).json({ message: "post créer avec succes" });
+        return res.status(201).json({ message: "post créer avec succes" });
       }
     });
   }
