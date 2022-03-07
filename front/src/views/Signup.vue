@@ -22,7 +22,7 @@
           <div class="error" v-if="$v.email.$invalid">* Renseignez un email valide</div>
 
           <label class="label_password" for="password">Mot de passe </label>
-          <input v-model="password"  @blur="$v.password.$touch()" @input="setPassword($event.target.value)" required type="password" name="password" id="password" class="champ_form">
+          <input v-model="password"  @input="setPassword($event.target.value)" required type="password" name="password" id="password" class="champ_form">
           
           <div class="error" v-if="!$v.password.required">* Champs requis</div>
           <div class="error" v-if="!$v.password.minLength">* minimum {{$v.password.$params.minLength.min}} lettre.</div>

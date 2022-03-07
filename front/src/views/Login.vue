@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-         <img id="logo" src="../assets/images/icon-above-font.png" alt="logo de l'entreprise">
+    <img id="logo" src="../assets/images/icon-above-font.png" alt="logo de l'entreprise">
     <div class="border_form">
       <form class="form" @submit.prevent="validForm">
 
@@ -11,7 +11,7 @@
         <div class="error" v-if="$v.email.$invalid">* Renseignez un email valide</div>
 
         <label class="label_password" for="password">Mot de passe </label>
-        <input v-model="password"  @blur="$v.password.$touch()" @input="setPassword($event.target.value)"  required type="password" name="password" id="password" class="champ_form">
+        <input v-model="password"  @input="setPassword($event.target.value)"  required type="password" name="password" id="password" class="champ_form">
           
         <div class="error" v-if="!$v.password.required">* Champs requis</div>
         <div class="error" v-if="!$v.password.minLength">* minimum {{$v.password.$params.minLength.min}} lettre.</div>
@@ -29,63 +29,65 @@
 
 
 <script>
-// @ is an alias to /src
 import axios from 'axios'
 import { required, minLength, email} from 'vuelidate/lib/validators'
-
 export default {
-  name: 'login',
-   data(){
+  name: "login",
+  data() {
     return {
-          email:'',
-          password:'',
-    }
+      email: "",
+      password: "",
+    };
   },
-  
-  validations:{
-          email:{required, email},
-          password:{required, minLength: minLength(7)},
-  },
-  
-    methods:{
-      //validation du formulaire
-    setEmail(value){
-      this.email = value
-      this.$v.email.$touch()},
-    setPassword(value){
-      this.password = value
-      this.$v.password.$touch()},
 
-    UserLogin(){
-        axios.post("http://localhost:3000/api/auth/login",{
-        email: this.email,
-        password: this.password,
-      }).then((res) => {
-          const token =  res.data.token;
+  validations: {
+    email: { required, email },
+    password: { required, minLength: minLength(7) },
+  },
+
+  methods: {
+    //validation du formulaire
+    setEmail(value) {
+      this.email = value;
+      this.$v.email.$touch();
+    },
+    setPassword(value) {
+      this.password = value;
+      this.$v.password.$touch();
+    },
+
+    UserLogin() {
+      axios
+        .post("http://localhost:3000/api/auth/login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          const token = res.data.token;
           const userId = res.data.userId;
 
-          axios.defaults.headers.common.Authorization = 'Bearer ' + token;
+          axios.defaults.headers.common.Authorization = "Bearer " + token;
 
-          localStorage.setItem('userId', userId);
-          localStorage.setItem('token', token);
-          
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("token", token);
+
           this.$router.push("/");
-        
-               
-      }).catch(() => {
-        alert("mot de passe ou email incorrect")
-      });
-     
-   },
-  
-   validForm(){
-     if (this.$v.$invalid){ 
-           alert('mot de passe ou email incorrect')
-         }else{this.UserLogin()}
-   },
-   
-  }
-}
+        })
+        .catch(() => {
+          alert("mot de passe ou email incorrect");
+        });
+    },
+
+    validForm() {
+      if (this.$v.$invalid) {
+        alert("mot de passe ou email incorrect");
+      } else {
+        this.UserLogin();
+      }
+    },
+  },
+};
+
 </script>
 
 

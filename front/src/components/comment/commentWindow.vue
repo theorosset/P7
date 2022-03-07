@@ -6,8 +6,8 @@
         <pictureUser  class="picture"/>
         <div class="commentUserText">
           <div class="name">
-            <h4 class="firstName">{{comment.firstName}}</h4>
-            <h4 class="lastName">{{ comment.lastName }}</h4>
+            <h4 class="firstName">{{comment.firstName}} {{ comment.lastName }}</h4>
+            
             <btnDelet :getComments="getComments" :postId="postId" :commentUser="comment.user" :commentId="comment.id"/>
           </div>
           <p class="text" >{{comment.text}}</p>
@@ -84,15 +84,13 @@ export default {
   flex-grow: 1;
 }
 
-.firstName, .lastName{
+.firstName{
   margin-top: 0px;
   margin-bottom: 0px;
   display: flex;
-}
-.lastName{
-  margin-left: 5px;
   flex-grow: 1;
 }
+
 /*responsive*/
 @media screen and (max-width: 500px){
   .commentWindow{

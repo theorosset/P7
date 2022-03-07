@@ -6,8 +6,7 @@
         </div>
         <div class="namePost">
           <pictureUser class="picture"/>
-          <h3 class="firstName">{{post.firstName}}</h3>
-          <h3 class="lastName">{{ post.lastName }}</h3>
+          <h3 class="firstName">{{post.firstName}} {{ post.lastName }}</h3>
         </div>
         <p class="date">{{getDate(post.date)}}</p>
         <div v-if="post.text" class="postText">
@@ -88,22 +87,14 @@ li{
   background-color: white;
 }
 
-.lastName {
-  margin-left: 5px;
-  flex-grow: 1;
-}
 .firstName{
      margin-left: 15px;
+     margin-bottom: 0px;
 }
 
-.firstName, .lastName{
-  margin-bottom: 0px;
-  
-}
 
 .namePost {
   display: flex;
- 
   align-items: flex-start;
 }
 
