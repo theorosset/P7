@@ -1,5 +1,8 @@
 const db = require("../config/db-config");
 
+/**
+ * récupération des commentaire relatif a un posts
+ */
 const getCommentOfOnePost = (req, res, next) => {
   const postId = req.params.id;
 
@@ -14,6 +17,10 @@ const getCommentOfOnePost = (req, res, next) => {
     }
   });
 };
+
+/**
+ * Création d'un commentaires
+ */
 
 const createComment = (req, res, next) => {
   const userId = req.auth.userId;
@@ -40,6 +47,9 @@ const createComment = (req, res, next) => {
   }
 };
 
+/**
+ * suppression d'un commentaires
+ */
 const deleteComment = (req, res, next) => {
   //requête sql pour selection du commentaire a supprimer
   //utiliser count
@@ -50,8 +60,6 @@ const deleteComment = (req, res, next) => {
   };
   //récuperation du commentaire a supprimer
   db.query(sqlSelect, commentDelete.id, (err, results) => {
-    console.log(results);
-
     //si l'id du commentaire est differant de celui du créateur
     if (results[0].user !== req.auth.userId) {
       return res

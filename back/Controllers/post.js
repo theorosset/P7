@@ -143,6 +143,9 @@ const deletePost = (req, res, next) => {
 //   });
 // };
 
+/**
+ * récuperation des utilisateur qui on like
+ */
 const allUserLikePost = (req, res, next) => {
   const postId = req.params.id;
 
@@ -158,6 +161,9 @@ const allUserLikePost = (req, res, next) => {
   });
 };
 
+/**
+ * compte du nombre de personne qui on like
+ */
 const allLikePost = (req, res, next) => {
   const postId = req.params.id;
 
@@ -173,6 +179,9 @@ const allLikePost = (req, res, next) => {
   });
 };
 
+/**
+ * possibilité de liker un post
+ */
 const like = (req, res, next) => {
   const userId = req.body.user;
   const postId = req.params.id;

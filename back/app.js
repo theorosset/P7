@@ -3,6 +3,7 @@ const userRoute = require("./Routes/User");
 const postRoute = require("./Routes/Post");
 const commentRoute = require("./Routes/Comment");
 const path = require("path");
+
 const app = express();
 app.use(express.json());
 
