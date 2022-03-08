@@ -110,14 +110,14 @@ const profil = (req, res, next) => {
 const deleteAccount = (req, res, next) => {
   const userId = req.auth.userId;
 
-  const sqlSelect = `SELECT u.firstName, u.lastName, u.email, u.password, p.id, p.text, p.user, p.date 
+  const sqlSelect = `SELECT u.id, u.firstName, u.lastName, u.email, u.password, p.id AS postId, p.text, p.user, p.date 
                      FROM users AS u  
-                     INNER JOIN posts AS p 
+                     LEFT JOIN posts AS p 
                      ON u.id = p.user
                      WHERE u.id = ${userId}`;
 
   db.query(sqlSelect, (err, results) => {
-    if (results[0].user !== userId) {
+    if (results[0].id !== userId) {
       return res.status(403).json({ message: " Vous ne pouvez pas faire sa" });
     } else {
       const sqlDelete = `DELETE FROM users WHERE users.id = ${userId} `;

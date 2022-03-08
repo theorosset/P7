@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 03 mars 2022 à 09:48
+-- Généré le : mar. 08 mars 2022 à 08:34
 -- Version du serveur : 8.0.28
 -- Version de PHP : 8.1.2
 
@@ -61,9 +61,9 @@ CREATE TABLE `likes` (
 
 INSERT INTO `likes` (`id`, `user`, `post_id`) VALUES
 (280, 37, 269),
-(281, 34, 270),
 (282, 37, 270),
-(283, 38, 270);
+(283, 38, 270),
+(285, 34, 270);
 
 -- --------------------------------------------------------
 
@@ -147,25 +147,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT pour la table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=284;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
 
 --
 -- AUTO_INCREMENT pour la table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` mediumint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
