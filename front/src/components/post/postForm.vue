@@ -65,7 +65,10 @@ export default {
         //une fois le post créer on récupêre tout les post
         .then(() => {
           this.fetchPosts();
-          document.querySelector(".createPost").value = "";
+          this.files = null
+          this.form = {
+            text: ''
+          }
           document.querySelector("#file").value = null;
         })
         .catch(() => {

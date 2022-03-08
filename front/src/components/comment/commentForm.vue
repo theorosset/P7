@@ -61,7 +61,9 @@ export default {
         //une fois le post créer on récupêre tout les post
         .then(() => {
           this.getComments(this.postId);
-          document.querySelector('.createComment').value="";
+          this.form = {
+            text: ""
+          }
         })
         .catch(() => alert(`Votre commentaire n'a pas pus être créer`));
     },
