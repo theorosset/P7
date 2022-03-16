@@ -84,7 +84,7 @@ export default {
      }).then(() => {
       this.$router.push("/login");
      }).catch(() => {
-      alert("Adress mail déjà utilisé")
+      alert("Nous ne pouvons pas créer votre compte actuellement");
      });
      
    },
