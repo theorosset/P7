@@ -52,7 +52,7 @@ const createPost = (req, res, next) => {
   } else {
     db.query(sql, post, (err, results) => {
       if (err) {
-        return res.status(400).json(err);
+        return res.status(500).json(err);
       } else {
         return res.status(201).json({ message: "post créer avec succes" });
       }

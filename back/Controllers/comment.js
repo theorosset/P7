@@ -37,7 +37,7 @@ const createComment = (req, res, next) => {
     //ajout a la base de donner
     db.query(sql, comment, (err, results) => {
       if (err) {
-        return res.status(400).json(err);
+        return res.status(500).json(err);
       } else {
         return res
           .status(201)
